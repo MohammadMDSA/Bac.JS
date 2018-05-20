@@ -1,0 +1,23 @@
+{
+  "name": "todoapiserver",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/MohammadMDSA/TodoApiServer.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/MohammadMDSA/TodoApiServer/issues"
+  },
+  "homepage": "https://github.com/MohammadMDSA/TodoApiServer#readme",
+  "dependencies": {
+    "hapi": "^17.4.0",
+    "nodemon": "^1.17.4"
+  }
+}
