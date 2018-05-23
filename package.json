@@ -17,6 +17,7 @@
   },
   "homepage": "https://github.com/MohammadMDSA/TodoApiServer#readme",
   "dependencies": {
+    "@types/hapi": "^17.0.12",
     "hapi": "^17.4.0",
     "hapi-pino": "^4.0.4",
     "inert": "^5.1.0",
