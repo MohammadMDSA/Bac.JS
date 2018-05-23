@@ -1,40 +1,47 @@
-'use strict';
+const Hapi = require('hapi')
+const Inert = require('inert');
 
-const Hapi = require('hapi');
+init  = async function() {
+    const Server = new Hapi.Server({
+        host: 'localhost',
+        port: Number(process.argv[2] || 3000)
+    });
+    
+    await Server.register(Inert);
+    
+    Server.route({
+        path: '/',
+        method: 'GET',
+        handler: (req, h) => {
+            return req.query;
+        }
+    });
+    
+    console.log('here___-')
 
-const server = Hapi.server({
-    port: 3000,
-    host: 'localhost'
-});
+    Server.route({
+        method: 'GET',
+        path: '/html',
+        handler: {
+            file: 'index.html'
+        }
+    });
 
-server.route({
-    method: 'GET',
-    path: '/',
-    handler: (request, h) => {
+    Server.route({
+        method: ['GET', 'POST', 'PUT'],
+        path: '/{name}/{guz}',
+        handler: (req, h) => {
+            return 'Hello ' + req.params.name + ' ' + req.params.guz;
+        }
+    });
+    
+    process.on('unhandledRejection', (err) => {
 
-        return 'Hello, world!';
-    }
-});
+        console.log(err);
+        process.exit(1);
+    });
 
-server.route({
-    method: 'GET',
-    path: '/{name}',
-    handler: (request, h) => {
-
-        return 'Hello, ' + encodeURIComponent(request.params.name) + '!';
-    }
-});
-
-const init = async () => {
-
-    await server.start();
-    console.log(`Server running at: ${server.info.uri}`);
-};
-
-process.on('unhandledRejection', (err) => {
-
-    console.log(err);
-    process.exit(1);
-});
+    await Server.start();
+}
 
 init();
