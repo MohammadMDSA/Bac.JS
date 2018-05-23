@@ -2,6 +2,61 @@
 # yarn lockfile v1
 
 
+"@types/boom@*":
+  version "7.2.0"
+  resolved "https://registry.yarnpkg.com/@types/boom/-/boom-7.2.0.tgz#19c36cbb5811a7493f0f2e37f31d42b28df1abc1"
+
+"@types/catbox@*":
+  version "10.0.0"
+  resolved "https://registry.yarnpkg.com/@types/catbox/-/catbox-10.0.0.tgz#1e01e5ad83e224f110cc59f6f57c56558f7eeb61"
+
+"@types/hapi@^17.0.12":
+  version "17.0.12"
+  resolved "https://registry.yarnpkg.com/@types/hapi/-/hapi-17.0.12.tgz#5751f4d8db4decb4eae6671a4efbeae671278ceb"
+  dependencies:
+    "@types/boom" "*"
+    "@types/catbox" "*"
+    "@types/iron" "*"
+    "@types/joi" "*"
+    "@types/mimos" "*"
+    "@types/node" "*"
+    "@types/podium" "*"
+    "@types/shot" "*"
+
+"@types/iron@*":
+  version "5.0.1"
+  resolved "https://registry.yarnpkg.com/@types/iron/-/iron-5.0.1.tgz#5420bbda8623c48ee51b9a78ebad05d7305b4b24"
+  dependencies:
+    "@types/node" "*"
+
+"@types/joi@*":
+  version "13.0.8"
+  resolved "https://registry.yarnpkg.com/@types/joi/-/joi-13.0.8.tgz#224d5da224036f0c15b35e6980ba9de63b8ea374"
+
+"@types/mime-db@*":
+  version "1.27.0"
+  resolved "https://registry.yarnpkg.com/@types/mime-db/-/mime-db-1.27.0.tgz#9bc014a1fd1fdf47649c1a54c6dd7966b8284792"
+
+"@types/mimos@*":
+  version "3.0.1"
+  resolved "https://registry.yarnpkg.com/@types/mimos/-/mimos-3.0.1.tgz#59d96abe1c9e487e7463fe41e8d86d76b57a441a"
+  dependencies:
+    "@types/mime-db" "*"
+
+"@types/node@*":
+  version "10.1.2"
+  resolved "https://registry.yarnpkg.com/@types/node/-/node-10.1.2.tgz#1b928a0baa408fc8ae3ac012cc81375addc147c6"
+
+"@types/podium@*":
+  version "1.0.0"
+  resolved "https://registry.yarnpkg.com/@types/podium/-/podium-1.0.0.tgz#bfaa2151be2b1d6109cc69f7faa9dac2cba3bb20"
+
+"@types/shot@*":
+  version "3.4.0"
+  resolved "https://registry.yarnpkg.com/@types/shot/-/shot-3.4.0.tgz#459477c5187d3ebd303660ab099e7e9e0f3b656f"
+  dependencies:
+    "@types/node" "*"
+
 abbrev@1:
   version "1.1.1"
   resolved "https://registry.yarnpkg.com/abbrev/-/abbrev-1.1.1.tgz#f8f2c887ad10bf67f634f005b6987fed3179aac8"
