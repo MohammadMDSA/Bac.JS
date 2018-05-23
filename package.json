@@ -18,6 +18,8 @@
   "homepage": "https://github.com/MohammadMDSA/TodoApiServer#readme",
   "dependencies": {
     "hapi": "^17.4.0",
+    "hapi-pino": "^4.0.4",
+    "inert": "^5.1.0",
     "nodemon": "^1.17.4"
   }
 }
