@@ -4,7 +4,8 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "api:build": "tsc",
+    "api": "build && node ./out/app.js"
   },
   "repository": {
     "type": "git",

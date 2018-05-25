@@ -11,7 +11,7 @@ export default class Server {
     public constructor(portNumber: number) {
         this.server = new Hapi.Server({
             host: "localhost",
-            port: Number(process.env.port || 3000)
+            port: Number(portNumber || process.env.port || 3000)
         });
     }
 
@@ -19,34 +19,40 @@ export default class Server {
 		this.handleRouters("", Config.routers);
 
 		await this.server.start();
+		console.log(`started on ${this.server.settings.port}`);
 	}
-
-	// private handleRouters(prefix: String, routers: IRouter[]): void {
-	// 	for(let item of routers) {
-	// 		this.handleRouter(prefix + item.prefix, item.route)
-	// 	}
-	// }
 
 	private handleRouters(prefix: string, router: IRouter[]): void {
 		for(let item of router) {
-			if(item.route instanceof String) {
-				this.assignRoute(prefix + item.prefix, item.route as string);
-			} else {
+			if(item.route instanceof Array) {
 				this.handleRouters(prefix + item.prefix, item.route as IRouter[]);
+			} else {
+				this.assignRoute(prefix + item.prefix, item.route as string);
 			}
 		}
 	}
 
 	private assignRoute(prefix: string, path: string): void {
-		let controller: Controller = require("." + path);
-		let handlers: IHandler[] = controller.getHandlers();
+		var controller = require(`.${path}`);
+		let cont: Controller = new controller.default();
+
+		cont.init();
+
+		let handlers: IHandler[] = cont.handlers;
+
+		let prser: string[] = path.split("/");
+
 		for(let handle of handlers) {
 			this.server.route({
 				method: handle.method,
 				handler: handle.handler,
-				path: prefix
+				path: prefix + "/" + prser[prser.length - 1]
 			});
+			for(let method of handle.method) {
+				console.log(`${prefix + "/" + prser[prser.length - 1]}\t\t[${method}]`);
+			}
 		}
+		console.log();
 	}
 
 }

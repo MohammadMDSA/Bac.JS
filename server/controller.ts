@@ -1,18 +1,24 @@
 import { Request } from "hapi";
 
-export default class Controller {
-    private handlers: IHandler[];
+export default abstract class Controller {
+    _handlers: IHandler[];
 
-    public assign(method: RequestType[], handler: (request, handler) => void) {
-        this.handlers.push({method: method, handler: handler});
+    constructor() {
+        this._handlers = [];
     }
 
-    public getHandlers(): IHandler[] {
-        return this.handlers;
+    protected assign(method: RequestType[], handler: (request, handler) => void) {
+        this._handlers.push({method: method, handler: handler});
     }
+
+    get handlers(): IHandler[] {
+        return this._handlers;
+    }
+
+    abstract init(): void;
 }
 
-export declare enum RequestType {
+export enum RequestType {
     GET = "GET",
     POST = "POST",
     PUT = "PUT",
@@ -31,6 +37,6 @@ export declare enum RequestType {
 }
 
 export interface IHandler {
-    method: RequestType[],
+    method: RequestType[];
     handler: (request, handler) => void;
 }
