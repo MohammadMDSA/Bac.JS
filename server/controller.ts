@@ -1,28 +1,18 @@
+import { Request } from "hapi";
+
 export default class Controller {
-    private handlers: {
-        GET,
-        POST,
-        PUT,
-        PATCH,
-        DELETE,
-        COPY,
-        HEAD,
-        OPTION,
-        LINK,
-        UNLINK,
-        PURGE,
-        LOCK,
-        UNLOCK,
-        PROPFIND,
-        VIEW
+    private handlers: IHandler[];
+
+    public assign(method: RequestType[], handler: (request, handler) => void) {
+        this.handlers.push({method: method, handler: handler});
     }
 
-    public assign(method: RequestType, handler: (request, handler0) => void) {
-        this.handlers[method] = handler;
+    public getHandlers(): IHandler[] {
+        return this.handlers;
     }
 }
 
-enum RequestType {
+export declare enum RequestType {
     GET = "GET",
     POST = "POST",
     PUT = "PUT",
@@ -38,4 +28,9 @@ enum RequestType {
     UNLOCK = "UNLOCK",
     PROPFIND = "PROPFIND",
     VIEW = "VIEW"
+}
+
+export interface IHandler {
+    method: RequestType[],
+    handler: (request, handler) => void;
 }
