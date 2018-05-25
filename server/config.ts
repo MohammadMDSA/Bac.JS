@@ -1,8 +1,8 @@
-export default interface Config {
-    routers: Router
+export default interface IConfig {
+    routers: IRouter;
 }
 
-interface Router {
-    prefix: String,
-    route: Router | String
+interface IRouter {
+    prefix: String;
+    route: IRouter | String;
 }
