@@ -1,10 +1,9 @@
-import Config from './server/config';
+import IConfig from './server/config';
 
-let appConfig : Config;
+let appConfig : IConfig;
 
 export default appConfig = {
-    routers: {
-        prefix: '/api',
-        route: './controller'
-    }
+    routers: [
+        {prefix: "prefix", route: "somewhere"}
+    ]
 }
