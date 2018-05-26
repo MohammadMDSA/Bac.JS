@@ -1,13 +1,13 @@
-import { Request } from "hapi";
+import { Request, ResponseToolkit } from "hapi";
 
 export default abstract class Controller {
-    _handlers: IHandler[];
+    private _handlers: IHandler[];
 
     constructor() {
         this._handlers = [];
     }
 
-    protected assign(method: RequestType[], handler: (request, handler) => void) {
+    protected assign(method: RequestType[], handler: (request: Request, h: ResponseToolkit, err?: Error ) => void): void {
         this._handlers.push({method: method, handler: handler});
     }
 
@@ -38,5 +38,5 @@ export enum RequestType {
 
 export interface IHandler {
     method: RequestType[];
-    handler: (request, handler) => void;
+    handler: (request: Request, h: ResponseToolkit) => void;
 }
