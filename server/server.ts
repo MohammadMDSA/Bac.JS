@@ -4,6 +4,7 @@ import Controller from "./controller";
 import { IHandler, RequestType } from "./controller";
 import IConfig from "./config";
 import { promises } from "fs";
+import Colors =  require("colors");
 
 export default class Server {
 
@@ -37,26 +38,31 @@ export default class Server {
 	}
 
 	private async assignRoute(prefix: string, path: string): Promise<void> {
-		const controller = await import(`.${path}`);
-		let cont: Controller = new controller.default();
+		try {
+			const controller = await import(`.${path}`);
+			let cont: Controller = new controller.default();
+	
+			cont.init();
+	
+			let handlers: IHandler[] = cont.handlers;
+	
+			let prser: string[] = path.split("/");
+	
+			for(let handle of handlers) {
+				this.server.route({
+					method: handle.method,
+					handler: handle.handler,
+					path: prefix + "/" + prser[prser.length - 1]
+				});
+				for(let method of handle.method) {
 
-		cont.init();
-
-		let handlers: IHandler[] = cont.handlers;
-
-		let prser: string[] = path.split("/");
-
-		for(let handle of handlers) {
-			this.server.route({
-				method: handle.method,
-				handler: handle.handler,
-				path: prefix + "/" + prser[prser.length - 1]
-			});
-			for(let method of handle.method) {
-				console.log(`${prefix + "/" + prser[prser.length - 1]}\t\t[${method}]`);
+					console.log(Colors.yellow(`${prefix + "/" + prser[prser.length - 1]}`) + Colors.green(`\t\t[${method}]`));
+				}
 			}
+			console.log();
+		} catch(error) {
+			console.log("Could not assign route with prefix: ".red + prefix.green + " from ".red + ('.' + path).green);
 		}
-		console.log();
 	}
 
 }
