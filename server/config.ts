@@ -1,5 +1,7 @@
 export default interface IConfig {
     routers: IRouter[];
+
+    port?: number;
 }
 
 export interface IRouter {
