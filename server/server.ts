@@ -1,39 +1,43 @@
 import Hapi = require("hapi");
-import Config from "../sami.config";
 import { IRouter } from "./config";
 import Controller from "./controller";
 import { IHandler, RequestType } from "./controller";
+import IConfig from "./config";
+import { promises } from "fs";
 
 export default class Server {
 
-    private server: Hapi.Server;
+	private server: Hapi.Server;
+	private _config: IConfig;
 
-    public constructor(portNumber: number) {
+    public constructor(config: IConfig) {
+		this._config = config;
+
         this.server = new Hapi.Server({
             host: "localhost",
-            port: Number(portNumber || process.env.port || 3000)
+            port: Number(this._config.port || process.env.port || 3000)
         });
     }
 
     public async start(): Promise<void> {
-		this.handleRouters("", Config.routers);
+		await this.handleRouters("", this._config.routers);
 
 		await this.server.start();
 		console.log(`started on ${this.server.settings.port}`);
 	}
 
-	private handleRouters(prefix: string, router: IRouter[]): void {
+	private async handleRouters(prefix: string, router: IRouter[]): Promise<void> {
 		for(let item of router) {
 			if(item.route instanceof Array) {
 				this.handleRouters(prefix + item.prefix, item.route as IRouter[]);
 			} else {
-				this.assignRoute(prefix + item.prefix, item.route as string);
+				await this.assignRoute(prefix + item.prefix, item.route as string);
 			}
 		}
 	}
 
-	private assignRoute(prefix: string, path: string): void {
-		var controller = require(`.${path}`);
+	private async assignRoute(prefix: string, path: string): Promise<void> {
+		const controller = await import(`.${path}`);
 		let cont: Controller = new controller.default();
 
 		cont.init();
