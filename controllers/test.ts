@@ -4,8 +4,12 @@ import { RequestType } from "../server/controller";
 export default class Test extends Controller {
 
     init(): void {
-        this.assign([RequestType.GET], (req, h) => {
+        this.assign([RequestType.GET, RequestType.POST], (req, h) => {
             return "Hello world";
+        });
+
+        this.assign([RequestType.DELETE], (request, h) => {
+            return {o: "SomeObject"};
         });
     }
 
