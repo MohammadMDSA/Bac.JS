@@ -28,8 +28,8 @@ export default class Server {
 	}
 
 	private async handleRouters(prefix: string, router: IRouter[]): Promise<void> {
-		for(let item of router) {
-			if(item.route instanceof Array) {
+		for (let item of router) {
+			if (item.route instanceof Array) {
 				this.handleRouters(prefix + item.prefix, item.route as IRouter[]);
 			} else {
 				await this.assignRoute(prefix + item.prefix, item.route as string);
@@ -48,20 +48,20 @@ export default class Server {
 	
 			let prser: string[] = path.split("/");
 	
-			for(let handle of handlers) {
+			for (let handle of handlers) {
 				this.server.route({
 					method: handle.method,
 					handler: handle.handler,
 					path: prefix + "/" + prser[prser.length - 1]
 				});
-				for(let method of handle.method) {
+				for (let method of handle.method) {
 
 					console.log(Colors.yellow(`${prefix + "/" + prser[prser.length - 1]}`) + Colors.green(`\t\t[${method}]`));
 				}
 			}
 			console.log();
-		} catch(error) {
-			console.log("Could not assign route with prefix: ".red + prefix.green + " from ".red + ('.' + path).green);
+		} catch (error) {
+			console.log("Could not assign route with prefix: ".red + prefix.green + " from ".red + ("." + path).green);
 		}
 	}
 

@@ -1,6 +1,6 @@
 import IConfig from "./server/config";
 
-let appConfig : IConfig;
+let appConfig: IConfig;
 
 export default appConfig = {
     routers: [
