@@ -1,5 +1,3 @@
-import testModel from "./testModel";
+import TestModel from "./testModel";
 
-export default {
-    Test: testModel
-};
+export default TestModel;

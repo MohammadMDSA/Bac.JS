@@ -1,5 +1,6 @@
 import DBModel from "../MongoDB/Model";
 import { SchemaDefinition } from "mongoose";
+import { TextDecoder } from "util";
 
 class Test extends DBModel {
     protected static $schema(): SchemaDefinition {
@@ -9,4 +10,4 @@ class Test extends DBModel {
     }
 }
 
-export default Test.$model;
+export default Test.$model();

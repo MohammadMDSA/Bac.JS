@@ -4,7 +4,7 @@ export default abstract class DBModel {
 
 	protected static $schema(): SchemaDefinition { return null; }
 
-	public static get $model(): Model<Document> {
+	public static $model(): Model<Document> {
 		const schema: Schema = new Schema(this.$schema());
 
 		console.log("Class name is " + this.constructor.name);
