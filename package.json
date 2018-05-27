@@ -19,6 +19,8 @@
   "homepage": "https://github.com/MohammadMDSA/TodoApiServer#readme",
   "dependencies": {
     "@types/hapi": "^17.0.12",
+    "@types/mongodb": "^3.0.18",
+    "@types/mongoose": "^5.0.14",
     "colors": "^1.3.0",
     "hapi": "^17.4.0",
     "hapi-pino": "^4.0.4",
