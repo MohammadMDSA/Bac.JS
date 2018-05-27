@@ -1,11 +1,14 @@
 import {Schema, model, SchemaDefinition, Model, Document} from "mongoose";
 
 export default abstract class DBModel {
-	
-	private static $schema(): SchemaDefinition { return null; }
+
+	protected static $schema(): SchemaDefinition { return null; }
 
 	public static get $model(): Model<Document> {
 		const schema: Schema = new Schema(this.$schema());
+
+		console.log("Class name is " + this.constructor.name);
+
 		return model(this.constructor.name, schema);
 	}
 
