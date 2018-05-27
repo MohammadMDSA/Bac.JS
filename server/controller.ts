@@ -15,7 +15,7 @@ export default abstract class Controller {
         return this._handlers;
     }
 
-    abstract init(): void;
+    public abstract init(): void;
 }
 
 export enum RequestType {

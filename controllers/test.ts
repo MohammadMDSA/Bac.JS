@@ -3,7 +3,7 @@ import { RequestType } from "../server/controller";
 
 export default class Test extends Controller {
 
-    init(): void {
+    public init(): void {
         this.assign([RequestType.GET, RequestType.POST], (req, h) => {
             return "Hello world";
         });
