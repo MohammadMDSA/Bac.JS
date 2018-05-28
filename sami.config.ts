@@ -8,5 +8,11 @@ export default appConfig = {
         {prefix: "/1", route: [
             {prefix: "/2", route: "./controllers/test.1"}
         ]}
-    ]
+    ],
+
+    port: 5500,
+
+    mongo: {
+        connection: "mongodb://localhost/test"
+    }
 };
