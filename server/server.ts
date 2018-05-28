@@ -76,7 +76,7 @@ export default class Server {
 	
 			await connect(this._config.mongo.connection, this._config.mongo.options);
 		} catch (e) {
-			console.log(Colors.red(`Failed to connect to Mongo server of ${this._config.mongo.connection}`))
+			console.log(Colors.red(`Failed to connect to Mongo server of ${this._config.mongo.connection}`));
 		}
 	}
 
