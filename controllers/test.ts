@@ -7,7 +7,8 @@ export default class Test extends Controller {
     public init(): void {
         this.assign([RequestType.GET, RequestType.POST], async (req, h) => {
             let e = new TestModel({Name: "hey"});
-            return "Hello world";
+            await e.save();
+            return e;
         });
 
         this.assign([RequestType.DELETE], (request, h) => {
