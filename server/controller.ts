@@ -1,4 +1,4 @@
-import { Request, ResponseToolkit } from "hapi";
+import { Request, ResponseToolkit, RouteOptions } from "hapi";
 
 export default abstract class Controller {
     private _handlers: IHandler[];
@@ -39,4 +39,5 @@ export enum RequestType {
 export interface IHandler {
     method: RequestType[];
     handler: (request: Request, h: ResponseToolkit) => void;
+    options?: RouteOptions;
 }

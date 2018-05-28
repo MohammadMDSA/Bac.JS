@@ -55,7 +55,8 @@ export default class Server {
 				this.server.route({
 					method: handle.method,
 					handler: handle.handler,
-					path: prefix + "/" + prser[prser.length - 1]
+					path: prefix + "/" + prser[prser.length - 1],
+					options: handle.options
 				});
 				for (let method of handle.method) {
 
