@@ -7,9 +7,7 @@ export default abstract class DBModel {
 	public static $model(): Model<Document> {
 		const schema: Schema = new Schema(this.$schema());
 
-		console.log("Class name is " + this.constructor.name);
-
-		return model(this.constructor.name, schema);
+		return model(this.prototype.constructor.name, schema);
 	}
 
 }
