@@ -5,7 +5,8 @@ import { TextDecoder } from "util";
 class Test extends DBModel {
     protected static $schema(): SchemaDefinition {
         return {
-            Name: String
+            Name: String,
+            Username: Number
         };
     }
 }
