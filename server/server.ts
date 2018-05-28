@@ -32,7 +32,7 @@ export default class Server {
 
 	private async handleRouters(prefix: string, router: IRouter[]): Promise<void> {
 		for (let item of router) {
-			if (item.route instanceof Array) {
+			if  (Array.isArray(item.route)) {
 				this.handleRouters(prefix + item.prefix, item.route as IRouter[]);
 			} else {
 				await this.assignRoute(prefix + item.prefix, item.route as string);
