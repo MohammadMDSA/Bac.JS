@@ -30,12 +30,16 @@ export default class Server {
 		console.log(Colors.green(`started on ${this.server.settings.port}`));
 	}
 
-	private async handleRouters(prefix: string, router: IRouter[]): Promise<void> {
+	private async handleRouters(prefix: string, router: Array<IRouter | Hapi.ServerRoute>): Promise<void> {
 		for (let item of router) {
-			if  (Array.isArray(item.route)) {
-				this.handleRouters(prefix + item.prefix, item.route as IRouter[]);
+			if (!(item as IRouter).prefix) {
+				this.assignServerRoute(item as Hapi.ServerRoute);
+				return;
+			}
+			if (Array.isArray((item as IRouter).route)) {
+				this.handleRouters(prefix + (item as IRouter).prefix, (item as IRouter).route as IRouter[]);
 			} else {
-				await this.assignRoute(prefix + item.prefix, item.route as string);
+				await this.assignRoute(prefix + (item as IRouter).prefix, (item as IRouter).route as string);
 			}
 		}
 	}
@@ -66,6 +70,14 @@ export default class Server {
 			console.log();
 		} catch (error) {
 			console.log("Could not assign route with prefix: ".red + prefix.green + " from ".red + ("." + path).green);
+		}
+	}
+
+	private async assignServerRoute(route: Hapi.ServerRoute) {
+		try {
+			this.server.route(route);
+		} catch (error) {
+			console.log(Colors.red("Failed to assign route" + route.path));
 		}
 	}
 

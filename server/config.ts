@@ -1,7 +1,8 @@
 import { ConnectionOptions } from "mongoose";
+import { ServerRoute } from "hapi";
 
 export default interface IConfig {
-    routers: IRouter[];
+    routers: Array<IRouter | ServerRoute>;
 
     port?: number;
 

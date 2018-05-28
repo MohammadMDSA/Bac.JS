@@ -7,7 +7,12 @@ export default appConfig = {
         {prefix: "/api", route: "./controllers/test"},
         {prefix: "/1", route: [
             {prefix: "/2", route: "./controllers/test.1"}
-        ]}
+        ]},
+        {
+            method: "GET",
+            handler: (r, h) => "Hello world",
+            path: "/api"
+        }
     ],
 
     port: 5500,
