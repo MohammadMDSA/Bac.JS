@@ -1,6 +1,7 @@
 import BaseProvider, { IOptions } from "./baseProvider";
 import * as Boom from "boom";
 import * as Utils from "./utils";
+import { Request } from "hapi";
 
 class AuthProvider extends BaseProvider {
 
@@ -44,6 +45,20 @@ class AuthProvider extends BaseProvider {
     }
 
     public getToken(user, request, client): string {
+        let session = user.session.create({
+            agent: request.headers["user-agent"],
+            ip: Utils.getIP(request)
+        });
+
+        if (this._options.auto_logout === true) {
+            user.sessions = user.sessions.filter(s => (s.agent !== session.agent || s.ip !== session.ip));
+        }
+
+        let { max_sessions } = this._options;
+        if (max_sessions && !max_sessions.has_limit) {
+            max_sessions.limit = max_sessions.limit || 3;
+        }
+
         return null;
     }
 
