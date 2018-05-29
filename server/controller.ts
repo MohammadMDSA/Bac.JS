@@ -2,9 +2,13 @@ import { Request, ResponseToolkit, RouteOptions } from "hapi";
 
 export default abstract class Controller {
     private _handlers: IHandler[];
+    private _prefix: string;
 
     constructor() {
         this._handlers = [];
+        this._prefix = "";
+
+        this.init();
     }
 
     protected assign(method: RequestType[] | AnyRequestType, handler: (request: Request, h: ResponseToolkit, err?: Error) => any | Promise<any>): void {
@@ -26,6 +30,14 @@ export default abstract class Controller {
 
     get handlers(): IHandler[] {
         return this._handlers;
+    }
+
+    get prefix(): string {
+        return this._prefix;
+    }
+
+    set prefix(value: string) {
+        this._prefix = value;
     }
 
     public abstract init(): void;

@@ -49,8 +49,6 @@ export default class Server {
 			const controller = await import(`.${path}`);
 			let cont: Controller = new controller.default();
 	
-			cont.init();
-	
 			let handlers: IHandler[] = cont.handlers;
 	
 			let prser: string[] = path.split("/");
@@ -59,7 +57,7 @@ export default class Server {
 				this.server.route({
 					method: handle.method,
 					handler: handle.handler,
-					path: prefix + "/" + prser[prser.length - 1],
+					path: prefix + cont.prefix + "/" + prser[prser.length - 1],
 					options: handle.options
 				});
 				for (let method of handle.method) {
