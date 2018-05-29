@@ -25,4 +25,8 @@ export default abstract class BaseProvider {
 export interface IOptions {
     userModel?: Model<Document>;
     secret: string;
+    auto_logout?: boolean;
+    max_sessions?: {
+        has_limit: boolean, limit: number
+    };
 }
