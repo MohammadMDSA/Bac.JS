@@ -21,8 +21,6 @@ export default abstract class Controller {
             for (let item in RequestType) {
                 allMethods.push(RequestType[item] as RequestType);
             }
-            console.log(allMethods);
-
             this._handlers.push({method: allMethods, handler: handler});
         }
 
