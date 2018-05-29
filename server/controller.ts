@@ -7,8 +7,21 @@ export default abstract class Controller {
         this._handlers = [];
     }
 
-    protected assign(method: RequestType[], handler: (request: Request, h: ResponseToolkit, err?: Error ) => void): void {
-        this._handlers.push({method: method, handler: handler});
+    protected assign(method: RequestType[] | AnyRequestType, handler: (request: Request, h: ResponseToolkit, err?: Error ) => void): void {
+        if (Array.isArray(method)) {
+            this._handlers.push({method: (method as RequestType[]), handler: handler});
+        }
+        else {
+            let allMethods: RequestType[] = [];
+
+            for (let item in RequestType) {
+                allMethods.push(RequestType[item] as RequestType);
+            }
+            console.log(allMethods);
+
+            this._handlers.push({method: allMethods, handler: handler});
+        }
+
     }
 
     get handlers(): IHandler[] {
@@ -24,16 +37,11 @@ export enum RequestType {
     PUT = "PUT",
     PATCH = "PATCH",
     DELETE = "DELETE",
-    COPY = "COPY",
-    HEAD = "HEAD",
-    OPTION = "OPTION",
-    LINK = "LINK",
-    UNLINK = "UNLINK",
-    PURGE = "PURGE",
-    LOCK = "LOCK",
-    UNLOCK = "UNLOCK",
-    PROPFIND = "PROPFIND",
-    VIEW = "VIEW"
+    OPTION = "OPTION"
+}
+
+export enum AnyRequestType {
+    Any = "Any"
 }
 
 export interface IHandler {
