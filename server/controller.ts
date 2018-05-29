@@ -7,7 +7,7 @@ export default abstract class Controller {
         this._handlers = [];
     }
 
-    protected assign(method: RequestType[] | AnyRequestType, handler: (request: Request, h: ResponseToolkit, err?: Error ) => void): void {
+    protected assign(method: RequestType[] | AnyRequestType, handler: (request: Request, h: ResponseToolkit, err?: Error) => any | Promise<any>): void {
         if (Array.isArray(method)) {
             this._handlers.push({method: (method as RequestType[]), handler: handler});
         }
