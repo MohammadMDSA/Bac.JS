@@ -11,7 +11,7 @@ export default abstract class BaseProvider {
         }
     }
 
-    public abstract authToken(token: string);
+    public abstract async authToken(token: string);
 
     public abstract getToken(user, request, client): string;
 
