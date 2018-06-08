@@ -13,7 +13,7 @@ export default class Test extends Controller {
 
         this.assign(AnyRequestType.Any, (request, h) => {
             return {o: "SomeObject"};
-        });
+        }, {auth: "jwt"});
     }
 
 }

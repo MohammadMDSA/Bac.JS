@@ -11,9 +11,9 @@ export default abstract class Controller {
         this.init();
     }
 
-    protected assign(method: RequestType[] | AnyRequestType, handler: (request: Request, h: ResponseToolkit, err?: Error) => any | Promise<any>): void {
+    protected assign(method: RequestType[] | AnyRequestType, handler: (request: Request, h: ResponseToolkit, err?: Error) => any | Promise<any>, options?: RouteOptions): void {
         if (Array.isArray(method)) {
-            this._handlers.push({method: (method as RequestType[]), handler: handler});
+            this._handlers.push({method: (method as RequestType[]), handler: handler, options: options});
         }
         else {
             let allMethods: RequestType[] = [];
@@ -21,7 +21,7 @@ export default abstract class Controller {
             for (let item in RequestType) {
                 allMethods.push(RequestType[item] as RequestType);
             }
-            this._handlers.push({method: allMethods, handler: handler});
+            this._handlers.push({method: allMethods, handler: handler, options: options});
         }
 
     }

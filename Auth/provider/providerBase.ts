@@ -1,4 +1,5 @@
 import { ValidationResult } from "hapi-auth-jwt2";
+import { Request, ResponseToolkit } from "hapi";
 
 export default abstract class ProviderBase<T extends IProviderOptions> {
 
@@ -9,6 +10,10 @@ export default abstract class ProviderBase<T extends IProviderOptions> {
 	}
 
 	public abstract authenticateToken(token: string): ValidationResult;
+
+	public abstract validateToken(token: string, secret: string): Promise<object | string>;
+
+	public abstract verify(decoded: any, request: Request, tk?: ResponseToolkit): ValidationResult | Promise<ValidationResult>;
 }
 
 export interface IProviderOptions {

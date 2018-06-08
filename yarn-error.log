@@ -1,14 +1,14 @@
 Arguments: 
-  C:\Program Files\nodejs\node.exe C:\Program Files (x86)\Yarn\bin\yarn.js add lodash
+  C:\Program Files (x86)\nodejs\node.exe C:\Users\SamiMD\scoop\apps\yarn\current\Yarn\bin\yarn.js add hapi-auth-jw2
 
 PATH: 
-  C:\ProgramData\Oracle\Java\javapath;C:\WINDOWS\system32;C:\WINDOWS;C:\WINDOWS\System32\Wbem;C:\WINDOWS\System32\WindowsPowerShell\v1.0\;C:\Program Files\dotnet\;C:\Program Files (x86)\GtkSharp\2.12\bin;C:\Program Files\Microsoft SQL Server\130\Tools\Binn\;C:\Program Files\Git\cmd;C:\WINDOWS\System32\OpenSSH\;C:\Program Files (x86)\Yarn\bin;C:\Program Files\nodejs\;C:\Program Files\nodejs;C:\Program Files\Java\jdk1.8.0_161\bin;C:\Program Files\MongoDB\Server\3.4\bin;C:\Users\Sami\AppData\Local\Microsoft\WindowsApps;;C:\Program Files\Microsoft VS Code\bin;C:\Users\Sami\AppData\Local\Yarn\bin;C:\Users\Sami\AppData\Roaming\npm
+  C:\MinGW\bin;C:\MinGW\libexec\gcc\x86_64-pc-mingw32\6.2.0;C:\ProgramData\Oracle\Java\javapath;C:\Users\SamiMD\gcc\bin;C:\Users\SamiMD\gcc\libexec\gcc\x86_64-pc-mingw32\4.7.0;C:\Program Files\Broadcom\Broadcom 802.11 Network Adapter;C:\Windows\system32;C:\Windows;C:\Windows\System32\Wbem;C:\Windows\System32\WindowsPowerShell\v1.0\;C:\Users\SamiMD\.dnx\bin;C:\Program Files\Microsoft DNX\Dnvm\;C:\Program Files\Microsoft SQL Server\120\Tools\Binn\;C:\WINDOWS\system32;C:\WINDOWS;C:\WINDOWS\System32\Wbem;C:\WINDOWS\System32\WindowsPowerShell\v1.0\;C:\Program Files (x86)\NVIDIA Corporation\PhysX\Common;C:\WINDOWS\system32;C:\WINDOWS;C:\WINDOWS\System32\Wbem;C:\WINDOWS\System32\WindowsPowerShell\v1.0\;C:\Program Files\Microsoft\Web Platform Installer\;C:\Program Files\Microsoft SQL Server\130\Tools\Binn\;C:\Program Files (x86)\Xoreax\IncrediBuild;C:\Program Files\dotnet\;C:\Program Files (x86)\GtkSharp\2.12\bin;C:\Program Files\Git\cmd;C:\Program Files (x86)\nodejs\;C:\Program Files\Calibre2\;C:\Program Files\MongoDB\Server\3.4\bin;C:\Program Files (x86)\Windows Kits\10\Windows Performance Toolkit\;C:\Program Files\Java\jdk1.8.0_161\bin;;C:\WINDOWS\System32\OpenSSH\;C:\Users\SamiMD\scoop\apps\yarn\current\Yarn\bin;C:\Users\SamiMD\scoop\apps\yarn\current\bin;C:\Users\SamiMD\scoop\apps\nodejs\current\bin;C:\Users\SamiMD\scoop\apps\nodejs\current;C:\Users\SamiMD\scoop\shims;C:\Users\SamiMD\AppData\Local\Microsoft\WindowsApps;C:\Program Files (x86)\Microsoft VS Code\bin;C:\Users\SamiMD\AppData\Roaming\npm;%USERPROFILE%\AppData\Local\Microsoft\WindowsApps;
 
 Yarn version: 
-  1.3.2
+  0.27.5
 
 Node version: 
-  10.0.0
+  9.2.0
 
 Platform: 
   win32 x64
@@ -36,6 +36,7 @@ npm manifest:
     "dependencies": {
       "@types/hapi": "^17.0.12",
       "@types/jsonwebtoken": "^7.2.7",
+      "@types/lodash": "^4.14.109",
       "@types/mongodb": "^3.0.18",
       "@types/mongoose": "^5.0.14",
       "boom": "^7.2.0",
@@ -45,6 +46,7 @@ npm manifest:
       "hapi-pino": "^4.0.4",
       "inert": "^5.1.0",
       "jsonwebtoken": "^8.2.1",
+      "lodash": "^4.17.10",
       "mongoose": "^5.1.2",
       "nodemon": "^1.17.4"
     }
@@ -104,6 +106,10 @@ Lockfile:
     resolved "https://registry.yarnpkg.com/@types/jsonwebtoken/-/jsonwebtoken-7.2.7.tgz#5dd62e0c0a0c6f211c3c1d13d322360894625b47"
     dependencies:
       "@types/node" "*"
+  
+  "@types/lodash@^4.14.109":
+    version "4.14.109"
+    resolved "https://registry.yarnpkg.com/@types/lodash/-/lodash-4.14.109.tgz#b1c4442239730bf35cabaf493c772b18c045886d"
   
   "@types/mime-db@*":
     version "1.27.0"
@@ -1182,7 +1188,7 @@ Lockfile:
     version "4.1.1"
     resolved "https://registry.yarnpkg.com/lodash.once/-/lodash.once-4.1.1.tgz#0dd3971213c7c56df880977d504c88fb471a97ac"
   
-  lodash@^4.14.0:
+  lodash@^4.14.0, lodash@^4.17.10:
     version "4.17.10"
     resolved "https://registry.yarnpkg.com/lodash/-/lodash-4.17.10.tgz#1b7793cf7259ea38fb3661d4d38b3260af8ae4e7"
   
@@ -2142,5 +2148,14 @@ Lockfile:
     resolved "https://registry.yarnpkg.com/yallist/-/yallist-3.0.2.tgz#8452b4bb7e83c7c188d8041c1a837c773d6d8bb9"
 
 Trace: 
-  Error: connect ECONNREFUSED 104.18.94.96:443
-      at TCPConnectWrap.afterConnect [as oncomplete] (net.js:1161:14)
+  Error: https://registry.yarnpkg.com/hapi-auth-jw2: Not found
+      at Request.params.callback [as _callback] (C:\Users\SamiMD\scoop\apps\yarn\0.27.5\Yarn\lib\yarn-cli.js:58200:18)
+      at Request.self.callback (C:\Users\SamiMD\scoop\apps\yarn\0.27.5\Yarn\lib\yarn-cli.js:114242:22)
+      at Request.emit (events.js:159:13)
+      at Request.<anonymous> (C:\Users\SamiMD\scoop\apps\yarn\0.27.5\Yarn\lib\yarn-cli.js:115225:10)
+      at Request.emit (events.js:159:13)
+      at IncomingMessage.<anonymous> (C:\Users\SamiMD\scoop\apps\yarn\0.27.5\Yarn\lib\yarn-cli.js:115145:12)
+      at Object.onceWrapper (events.js:254:19)
+      at IncomingMessage.emit (events.js:164:20)
+      at endReadableNT (_stream_readable.js:1054:12)
+      at _combinedTickCallback (internal/process/next_tick.js:138:11)

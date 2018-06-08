@@ -19,5 +19,9 @@ export default appConfig = {
 
     mongo: {
         connection: "mongodb://localhost/test"
+    },
+
+    auth: {
+        secret: "a simple secret"
     }
 };
