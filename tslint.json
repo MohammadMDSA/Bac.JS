@@ -22,7 +22,8 @@
         "one-line": false,
         "no-unused-expression": false,
         "no-string-literal": false,
-        "arrow-parens": false
+        "arrow-parens": false,
+        "no-empty-interface": false
     },
     "rulesDirectory": []
 }
