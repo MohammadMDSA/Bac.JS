@@ -1,10 +1,10 @@
-import Server from "./server";
+import { Server } from "hapi";
 
-export default abstract class Plugin {
-	private _options: IPluginOptions;
-	private _server: Server;
+export default abstract class Plugin<T extends IPluginOptions> {
+	protected _options: T;
+	protected _server: Server;
 
-	constructor(server: Server, options: IPluginOptions) {
+	constructor(server: Server, options: T) {
 		this._options = options;
 		this._server = server;
 	}
