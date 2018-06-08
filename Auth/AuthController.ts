@@ -1,7 +1,16 @@
 import Controller from "../server/controller";
 import { Request, ResponseToolkit } from "hapi";
+import Provider from "./provider/provider";
 
-export default abstract class Auth extends Controller {
+export default class Auth extends Controller {
+
+    private _provider: Provider;
+
+    constructor(provider: Provider) {
+        super();
+        this._provider = provider;
+    }
+
     public init(): void {
 
     }
@@ -16,13 +25,5 @@ export default abstract class Auth extends Controller {
 
     private async user(request: Request, h: ResponseToolkit) {
 
-    }
-
-    private async oauthLogin(request: Request, h: ResponseToolkit) {
-
-    }
-
-    private async oauthAuthorize(request: Request, h: ResponseToolkit) {
-        
     }
 }

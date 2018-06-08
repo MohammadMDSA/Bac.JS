@@ -48,7 +48,7 @@ export default class Server {
 	}
 
 	private async assignRoute(prefix: string, path: string): Promise<void> {
-		try {
+		// try {
 			const controller = await import(`.${path}`);
 			let cont: Controller = new controller.default();
 
@@ -69,9 +69,9 @@ export default class Server {
 				}
 			}
 			console.log();
-		} catch (error) {
-			console.log("Could not assign route with prefix: ".red + prefix.green + " from ".red + ("." + path).green);
-		}
+		// } catch (error) {
+			// console.log("Could not assign route with prefix: ".red + prefix.green + " from ".red + ("." + path).green);
+		// }
 	}
 
 	public async assignServerRoute(route: Hapi.ServerRoute) {
@@ -95,7 +95,7 @@ export default class Server {
 	}
 
 	private async setupAuth(): Promise<void> {
-		try {
+		// try {
 			if (!this._config.auth) {
 				return;
 			}
@@ -103,10 +103,11 @@ export default class Server {
 			let a = new AuthPlugin(this.server, {secret: this._config.auth.secret});
 
 			await a.register();
+			this.server.register
 
-		} catch (e) {
-			console.log(Colors.red("Failed to setup Authentication for server"));
-		}
+		// } catch (e) {
+			// console.log(Colors.red("Failed to setup Authentication for server"));
+		// }
 	}
 
 }
