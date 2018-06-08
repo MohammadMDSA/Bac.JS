@@ -1,11 +1,13 @@
 import Hapi = require("hapi");
-import { IRouter } from "./config";
-import Controller from "./controller";
-import { IHandler, RequestType } from "./controller";
-import IConfig from "./config";
-import { promises } from "fs";
 import Colors =  require("colors");
+import * as JWT2 from "hapi-auth-jwt2";
+import Controller from "./controller";
+import IConfig from "./config";
+import { IRouter } from "./config";
+import { IHandler, RequestType } from "./controller";
+import { promises } from "fs";
 import { connect } from "mongoose";
+
 
 export default class Server {
 
@@ -25,6 +27,8 @@ export default class Server {
 		await this.handleRouters("", this._config.routers);
 
 		await this.connectMongo();
+
+		await this.setupAuth();
 
 		await this.server.start();
 		console.log(Colors.green(`started on ${this.server.settings.port}`));
@@ -88,6 +92,24 @@ export default class Server {
 			await connect(this._config.mongo.connection, this._config.mongo.options);
 		} catch (e) {
 			console.log(Colors.red(`Failed to connect to Mongo server of ${this._config.mongo.connection}`));
+		}
+	}
+
+	private async setupAuth(): Promise<void> {
+		try {
+			if(!this._config.auth) {
+				return;
+			}
+
+			await this.server.register(JWT2);
+
+			this.server.auth.strategy("jwt", "jwt", {
+				
+			});
+
+
+		} catch(e) {
+			console.log(Colors.red("Failed to setup Authentication for server"));
 		}
 	}
 

@@ -7,6 +7,8 @@ export default interface IConfig {
     port?: number;
 
     mongo?: IMongoConfig;
+
+    auth?: IAuth;
 }
 
 export interface IRouter {
@@ -17,4 +19,8 @@ export interface IRouter {
 interface IMongoConfig {
     connection: string;
     options?: ConnectionOptions;
+}
+
+interface IAuth {
+    secret: string;
 }
