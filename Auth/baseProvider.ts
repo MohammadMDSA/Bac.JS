@@ -13,7 +13,7 @@ export default abstract class BaseProvider {
 
     public abstract async authToken(token: string);
 
-    public abstract getToken(user, request, client): string;
+    public abstract async getToken(user, request, client): string;
 
     public abstract findByUsername(username: string);
 

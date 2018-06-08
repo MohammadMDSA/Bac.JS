@@ -2,6 +2,7 @@ import BaseProvider, { IOptions } from "./baseProvider";
 import * as Boom from "boom";
 import * as Utils from "./utils";
 import { Request } from "hapi";
+import * as _ from "lodash";
 
 class AuthProvider extends BaseProvider {
 
@@ -44,7 +45,7 @@ class AuthProvider extends BaseProvider {
         return Utils.jwtVerify(token, this._options.secret);
     }
 
-    public getToken(user, request, client): string {
+    public async getToken(user, request, client): string {
         let session = user.session.create({
             agent: request.headers["user-agent"],
             ip: Utils.getIP(request)
@@ -57,7 +58,14 @@ class AuthProvider extends BaseProvider {
         let { max_sessions } = this._options;
         if (max_sessions && !max_sessions.has_limit) {
             max_sessions.limit = max_sessions.limit || 3;
+            user.sessions = _.sortBy(user.session, ["created_at", "_id"]).reverse().slice(0, max_sessions.limit - 1)
         }
+        
+        user.sessions.unshift(session);
+        await user.save;
+
+        let secret = this._options.secret;
+        let token = await Utils.jwtSign({ user: user._id, session: session._id }, secret);
 
         return null;
     }
