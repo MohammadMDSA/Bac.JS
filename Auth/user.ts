@@ -8,12 +8,12 @@ class User extends DBModel {
             username: { type: String, index: true, sparse: true, unique: true },
             email: { type: String, index: true, sparse: true, unique: true },
             password: { type: String },
-            sessions: [
-                {
-                    _ip: { type: String },
-                    created_at: { type: Date, default: Date.now }
-                }
-            ]
+            // sessions: [
+            //     {
+            //         _ip: { type: String },
+            //         created_at: { type: Date, default: Date.now }
+            //     }
+            // ]
         };
 
     }
