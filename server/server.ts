@@ -74,7 +74,7 @@ export default class Server {
 		}
 	}
 
-	private async assignServerRoute(route: Hapi.ServerRoute) {
+	public async assignServerRoute(route: Hapi.ServerRoute) {
 		try {
 			this.server.route(route);
 		} catch (error) {
