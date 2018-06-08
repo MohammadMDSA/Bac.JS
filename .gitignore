@@ -2,4 +2,5 @@
 /out
 .env
 /.vscode
-tslint.json
+*.log
+yarn-error.log
