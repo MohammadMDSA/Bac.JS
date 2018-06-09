@@ -24,7 +24,7 @@ export default class Server {
 	public async start(): Promise<void> {
 		await this.setupAuth();
 
-		console.log("before route")
+		console.log("before route");
 		await this.handleRouters("", this._config.routers);
 
 		await this.connectMongo();
@@ -60,12 +60,32 @@ export default class Server {
 				this.server.route({
 					method: handle.method,
 					handler: handle.handler,
-					path: prefix + handle.prefix + cont.prefix + "/" + prser[prser.length - 1],
+					path: prefix + "/" + prser[prser.length - 1] + cont.prefix + handle.prefix,
 					options: handle.options
 				});
 				for (let method of handle.method) {
 
-					console.log(Colors.yellow(`${prefix + "/" + prser[prser.length - 1]}`) + Colors.green(`\t\t[${method}]`));
+					console.log(Colors.yellow(`${prefix + "/" + prser[prser.length - 1] + cont.prefix + handle.prefix}`) + Colors.green(`\t\t[${method}]`));
+				}
+			}
+			console.log();
+		} catch (error) {
+			console.log("Could not assign route with prefix: ".red + prefix.green + " from ".red + ("." + path).green);
+		}
+	}
+
+	public async assignHandlers(handlers: IHandler[]) {
+		try {
+			for (let handle of handlers) {
+				this.server.route({
+					method: handle.method,
+					handler: handle.handler,
+					path: handle.prefix,
+					options: handle.options
+				});
+				for (let method of handle.method) {
+
+					console.log(Colors.yellow(`${handle.prefix}`) + Colors.green(`\t\t[${method}]`));
 				}
 			}
 			console.log();
