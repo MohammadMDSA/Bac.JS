@@ -11,7 +11,7 @@ export default class Test extends Controller {
         //     return e;
         // });
 
-        this.assign(AnyRequestType.Any, (request, h) => {
+        this.assign("/1", AnyRequestType.Any, (request, h) => {
             return {o: "SomeObject"};
         }, {auth: "jwt"});
     }
