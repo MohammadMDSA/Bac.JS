@@ -75,8 +75,8 @@ export default class Server {
 	}
 
 	public async assignHandlers(handlers: IHandler[]) {
-		try {
-			for (let handle of handlers) {
+		for (let handle of handlers) {
+			try {
 				this.server.route({
 					method: handle.method,
 					handler: handle.handler,
@@ -87,10 +87,10 @@ export default class Server {
 
 					console.log(Colors.yellow(`${handle.prefix}`) + Colors.green(`\t\t[${method}]`));
 				}
+				console.log();
+			} catch (error) {
+				console.log("Could not assign route with prefix: ".red + handle.prefix.green);
 			}
-			console.log();
-		} catch (error) {
-			console.log("Could not assign route with prefix: ".red + prefix.green + " from ".red + ("." + path).green);
 		}
 	}
 
@@ -119,8 +119,8 @@ export default class Server {
 			if (!this._config.auth) {
 				return;
 			}
-			
-			let a = new AuthPlugin(this.server, {secret: this._config.auth.secret});
+
+			let a = new AuthPlugin(this.server, { secret: this._config.auth.secret });
 
 			await a.register();
 
