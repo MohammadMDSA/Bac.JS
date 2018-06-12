@@ -24,7 +24,8 @@
         "no-string-literal": false,
         "arrow-parens": false,
         "no-empty-interface": false,
-        "max-classes-per-file": false
+        "max-classes-per-file": false,
+        "member-access": false
     },
     "rulesDirectory": []
 }
