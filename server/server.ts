@@ -24,7 +24,6 @@ export default class Server {
 	public async start(): Promise<void> {
 		await this.setupAuth();
 
-		console.log("before route");
 		await this.handleRouters("", this._config.routers);
 
 		await this.connectMongo();
@@ -74,22 +73,22 @@ export default class Server {
 		}
 	}
 
-	public async assignHandlers(handlers: IHandler[]) {
+	public async assignHandlers(handlers: IHandler[], prefix: string) {
 		for (let handle of handlers) {
 			try {
 				this.server.route({
 					method: handle.method,
 					handler: handle.handler,
-					path: handle.prefix,
+					path: prefix + handle.prefix,
 					options: handle.options
 				});
 				for (let method of handle.method) {
 
-					console.log(Colors.yellow(`${handle.prefix}`) + Colors.green(`\t\t[${method}]`));
+					console.log(Colors.yellow(`${prefix + handle.prefix}`) + Colors.green(`\t\t[${method}]`));
 				}
 				console.log();
 			} catch (error) {
-				console.log("Could not assign route with prefix: ".red + handle.prefix.green);
+				console.log("Could not assign route with prefix: ".red + (prefix + handle.prefix).green);
 			}
 		}
 	}
@@ -120,13 +119,17 @@ export default class Server {
 				return;
 			}
 
-			let a = new AuthPlugin(this.server, { secret: this._config.auth.secret });
+			let a = new AuthPlugin(this, { secret: this._config.auth.secret });
 
 			await a.register();
 
 		} catch (e) {
 			console.log(Colors.red("Failed to setup Authentication for server"));
 		}
+	}
+
+	get CoreServer(): Hapi.Server {
+		return this.server;
 	}
 
 }

@@ -1,4 +1,4 @@
-import { Server } from "hapi";
+import Server from "./server";
 
 export default abstract class Plugin<T extends IPluginOptions> {
 	protected _options: T;

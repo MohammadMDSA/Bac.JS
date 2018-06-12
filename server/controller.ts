@@ -2,18 +2,22 @@ import { Request, ResponseToolkit, RouteOptions } from "hapi";
 
 export default abstract class Controller {
     private _handlers: IHandler[];
-    private _prefix: string;
+    protected _prefix: string;
+    protected _options: IControllerOptions;
 
-    constructor() {
+    constructor(options?: IControllerOptions) {
         this._handlers = [];
         this._prefix = "";
+        this._options = options;
 
-        this.init();
+        if (options && !this._options.manualInit) {
+            this.init();
+        }
     }
 
     protected assign(prefix: string, method: RequestType[] | AnyRequestType, handler: (request: Request, h: ResponseToolkit, err?: Error) => any | Promise<any>, options?: RouteOptions): void {
         if (Array.isArray(method)) {
-            this._handlers.push({prefix: prefix, method: (method as RequestType[]), handler: handler, options: options});
+            this._handlers.push({ prefix: prefix, method: (method as RequestType[]), handler: handler, options: options });
         }
         else {
             let allMethods: RequestType[] = [];
@@ -21,7 +25,7 @@ export default abstract class Controller {
             for (let item in RequestType) {
                 allMethods.push(RequestType[item] as RequestType);
             }
-            this._handlers.push({prefix: prefix, method: allMethods, handler: handler, options: options});
+            this._handlers.push({ prefix: prefix, method: allMethods, handler: handler, options: options });
         }
 
     }
@@ -59,4 +63,8 @@ export interface IHandler {
     handler: (request: Request, h: ResponseToolkit) => void;
     options?: RouteOptions;
     prefix: string;
+}
+
+export interface IControllerOptions {
+    manualInit?: boolean;
 }
