@@ -1,4 +1,5 @@
 import { Request, ResponseToolkit, RouteOptions } from "hapi";
+import { SSL_OP_NETSCAPE_DEMO_CIPHER_CHANGE_BUG } from "constants";
 
 export default abstract class Controller {
     private _handlers: IHandler[];
@@ -10,9 +11,10 @@ export default abstract class Controller {
         this._prefix = "";
         this._options = options;
 
-        if (options && !this._options.manualInit) {
+        if (!this._options || !this._options.manualInit) {
             this.init();
         }
+
     }
 
     protected assign(prefix: string, method: RequestType[] | AnyRequestType, handler: (request: Request, h: ResponseToolkit, err?: Error) => any | Promise<any>, options?: RouteOptions): void {
