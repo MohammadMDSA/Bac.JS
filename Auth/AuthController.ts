@@ -9,8 +9,6 @@ export default class Auth extends Controller {
     constructor(provider: Provider) {
         super({ manualInit: true });
         this._provider = provider;
-        console.log(this._provider);
-        console.log(this);
         this.init();
     }
 
@@ -19,7 +17,6 @@ export default class Auth extends Controller {
 
         const signUp = async (request: Request, h: ResponseToolkit) => {
             let {username, password, email} = request.payload as any;
-            console.log({je: this});
             return await this._provider.SignUp(username, password, email);
         };
 
