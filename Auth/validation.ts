@@ -8,7 +8,7 @@ export async function isEmailValid(email: string): Promise<IValidationResult> {
     if (!res) {
         return {
             result: false,
-            message: "Password doesn't meet requirements"
+            message: "Invalid email address"
         };
     }
 
