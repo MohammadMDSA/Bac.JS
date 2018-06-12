@@ -45,17 +45,18 @@ export default class Server {
 			}
 		}
 	}
-
+	
 	private async assignRoute(prefix: string, path: string): Promise<void> {
 		try {
 			const controller = await import(`.${path}`);
 			let cont: Controller = new controller.default();
-
+			
 			let handlers: IHandler[] = cont.handlers;
 
 			let prser: string[] = path.split("/");
 
 			for (let handle of handlers) {
+
 				this.server.route({
 					method: handle.method,
 					handler: handle.handler,
@@ -86,11 +87,11 @@ export default class Server {
 
 					console.log(Colors.yellow(`${prefix + handle.prefix}`) + Colors.green(`\t\t[${method}]`));
 				}
-				console.log();
 			} catch (error) {
 				console.log("Could not assign route with prefix: ".red + (prefix + handle.prefix).green);
 			}
 		}
+		console.log();
 	}
 
 	public async assignServerRoute(route: Hapi.ServerRoute) {
