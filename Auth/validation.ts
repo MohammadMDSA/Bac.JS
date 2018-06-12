@@ -3,11 +3,27 @@ import { inspect } from "util";
 
 export async function isEmailValid(email: string): Promise<IValidationResult> {
     let exp = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
-    
+
     let res = exp.test(email.toLowerCase());
-    
+    if (!res) {
+        return {
+            result: false,
+            message: "Password doesn't meet requirements"
+        };
+    }
+
+    let query = user.findOne({ email: email });
+    let r = query.exec();
+
+    if (r) {
+        return {
+            result: true,
+            message: "Email address already exists"
+        };
+    }
+
     return {
-        result: res
+        result: true
     };
 }
 
@@ -56,9 +72,8 @@ export async function isUsernameValid(username: string): Promise<IValidationResu
         };
     }
 
-    let querry = user.findOne({username: "S"});
-
-    let r = await querry.exec();
+    let query = user.findOne({ username: username });
+    let r = await query.exec();
 
     if (r) {
         return {
@@ -69,7 +84,7 @@ export async function isUsernameValid(username: string): Promise<IValidationResu
 
     return {
         result: true
-    }
+    };
 }
 
 export interface IValidationResult {
