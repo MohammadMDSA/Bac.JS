@@ -1,29 +1,44 @@
-import Controller from "../server/controller";
+import Controller, { RequestType, AnyRequestType } from "../server/controller";
 import { Request, ResponseToolkit } from "hapi";
 import Provider from "./provider/provider";
 
 export default class Auth extends Controller {
 
-    private _provider: Provider;
+    _provider: Provider;
 
     constructor(provider: Provider) {
-        super();
+        super({ manualInit: true });
         this._provider = provider;
+        console.log(this._provider);
+        console.log(this);
+        this.init();
     }
 
     public init(): void {
+        this._prefix = "/auth";
 
+        const signUp = async (request: Request, h: ResponseToolkit) => {
+            let {username, password, email} = request.payload as any;
+            console.log({je: this});
+            return await this._provider.SignUp(username, password, email);
+        };
+
+        const login = async (request: Request, h: ResponseToolkit) => {
+            
+        };
+
+        const logout = async (request: Request, h: ResponseToolkit) => {
+
+        };
+
+        const user = async (request: Request, h: ResponseToolkit) => {
+
+        };
+
+        this.assign("/login", [RequestType.POST], login, {auth: false});
+        this.assign("/logout", AnyRequestType.Any, logout, {auth: "jwt"});
+        this.assign("/user", [RequestType.GET], user, {auth: false});
+        this.assign("/signup", [RequestType.POST], signUp, {auth: false});
     }
 
-    private async login(request: Request, h: ResponseToolkit) {
-    
-    }
-
-    private async logout(request: Request, h: ResponseToolkit) {
-
-    }
-
-    private async user(request: Request, h: ResponseToolkit) {
-
-    }
 }
