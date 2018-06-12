@@ -12,12 +12,12 @@ export async function isEmailValid(email: string): Promise<IValidationResult> {
         };
     }
 
-    let query = user.findOne({ email: email });
-    let r = query.exec();
+    let query = user.findOne({ email: email.toLowerCase() });
+    let r = await query.exec();
 
     if (r) {
         return {
-            result: true,
+            result: false,
             message: "Email address already exists"
         };
     }
@@ -72,7 +72,8 @@ export async function isUsernameValid(username: string): Promise<IValidationResu
         };
     }
 
-    let query = user.findOne({ username: username });
+    let exp = new RegExp(username, "i");
+    let query = user.findOne({ username: exp });
     let r = await query.exec();
 
     if (r) {
