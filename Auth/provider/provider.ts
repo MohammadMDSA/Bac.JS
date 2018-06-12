@@ -75,8 +75,25 @@ export default class Provider extends ProviderBase<IDefaultProviderOptions> {
 		return user;
 	}
 
+	public async login({ username, password }: ILoginInputs): Promise<string> {
+		return "";
+	}
+
+	private async findByUsername(username: string): Promise<IUserModelDocument> {
+		let exp = new RegExp("^" + username + "$", "i");
+		let query = User.findOne({username: exp});
+		let r = await query.exec();
+
+		return r;
+	}
+
 }
 
 export interface IDefaultProviderOptions extends IProviderOptions {
 	secret: string;
+}
+
+export interface ILoginInputs {
+	username: string;
+	password: string;
 }
