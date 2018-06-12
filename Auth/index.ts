@@ -17,7 +17,6 @@ export default class AuthPlugin extends Plugin<IAuthOptions> {
 	public async register(): Promise<void> {
 		await this._server.CoreServer.register(JWT);
 
-
 		let authOptions: JWT.Options = {
 			key: this._options.secret,
 			validate: this._provider.verify,
