@@ -1,5 +1,5 @@
 import DBModel from "../MongoDB/Model";
-import { SchemaDefinition } from "mongoose";
+import { SchemaDefinition, Document } from "mongoose";
 
 class User extends DBModel {
     protected static $schema(): SchemaDefinition {
@@ -19,4 +19,10 @@ class User extends DBModel {
     }
 }
 
-export default User.$model();
+export default User.$model<IUserModelDocument>();
+
+export interface IUserModelDocument extends Document {
+    username: string;
+    password: string;
+    email: string;
+}
