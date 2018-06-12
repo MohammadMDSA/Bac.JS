@@ -4,6 +4,8 @@ import { ValidationResult } from "hapi-auth-jwt2";
 import { jwtDecode } from "../utils";
 import { DecodeOptions } from "jsonwebtoken";
 import User, { IUserModelDocument } from "../user";
+import { isEmailValid, isPasswordValid, isUsernameValid } from "../validation";
+import * as Boom from "boom";
 
 export default class Provider extends ProviderBase<IDefaultProviderOptions> {
 
@@ -37,29 +39,33 @@ export default class Provider extends ProviderBase<IDefaultProviderOptions> {
 		}
 	}
 
-	public SignUp(username: string, password: string, email: string): IUserModelDocument {
+	public async SignUp(username: string, password: string, email: string): Promise<IUserModelDocument> {
 
-		if (!username) {
-			throw new Error("Invalid username!");
+		console.log(`inside sign in ${username} ${password} ${email}`);
+
+
+		let res = await isUsernameValid(username);
+		if (!res.result) {
+			throw Boom.badRequest(res.message);
 		}
 
-		if (!password) {
-			throw new Error("Invalid password!");
+		res = isPasswordValid(password);
+		if (!res.result) {
+			throw Boom.badRequest(res.message);
 		}
 
-		if (!email) {
-			throw new Error("Invalid email address!");
+		res = await isEmailValid(email);
+		if (!res.result) {
+			throw Boom.badRequest(res.message);
 		}
 
 		let user = new User({
 			username: username,
 			password: password,
-			email: email
+			email: email.toLowerCase()
 		});
 
 		user.save();
-
-		console.log(user);
 
 		return user;
 	}
