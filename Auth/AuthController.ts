@@ -17,7 +17,7 @@ export default class Auth extends Controller {
 
         const signUp = async (request: Request, h: ResponseToolkit) => {
             let {username, password, email} = request.payload as any;
-            return await this._provider.SignUp(username, password, email);
+            return await this._provider.signUp(username, password, email);
         };
 
         const login = async (request: Request, h: ResponseToolkit) => {

@@ -39,10 +39,15 @@ export default class Provider extends ProviderBase<IDefaultProviderOptions> {
 		}
 	}
 
-	public async SignUp(username: string, password: string, email: string): Promise<IUserModelDocument> {
+	public async signUp(_username: string = "", _password: string = "", _email: string = ""): Promise<IUserModelDocument> {
+
+		console.log(`inside sign in ${_username} ${_password} ${_email}`);
+
+		let email = String(_email);
+		let password = String(_password);
+		let username = String(_username);
 
 		console.log(`inside sign in ${username} ${password} ${email}`);
-
 
 		let res = await isUsernameValid(username);
 		if (!res.result) {
@@ -69,6 +74,7 @@ export default class Provider extends ProviderBase<IDefaultProviderOptions> {
 
 		return user;
 	}
+
 }
 
 export interface IDefaultProviderOptions extends IProviderOptions {

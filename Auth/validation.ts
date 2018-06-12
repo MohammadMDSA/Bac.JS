@@ -28,6 +28,7 @@ export async function isEmailValid(email: string): Promise<IValidationResult> {
 }
 
 export function isPasswordValid(password: string): IValidationResult {
+
     if (password.length < 6) {
         return {
             result: false,
