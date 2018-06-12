@@ -57,7 +57,7 @@ export default class Provider extends ProviderBase<IDefaultProviderOptions> {
 			email: email
 		});
 
-		user.save;
+		user.save();
 
 		console.log(user);
 
