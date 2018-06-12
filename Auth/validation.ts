@@ -73,7 +73,7 @@ export async function isUsernameValid(username: string): Promise<IValidationResu
         };
     }
 
-    let exp = new RegExp(username, "i");
+    let exp = new RegExp("^" + username + "$", "i");
     let query = user.findOne({ username: exp });
     let r = await query.exec();
 
