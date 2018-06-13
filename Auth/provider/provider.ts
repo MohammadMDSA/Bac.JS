@@ -1,7 +1,7 @@
 import ProviderBase, { IProviderOptions } from "./providerBase";
 import { Request, ResponseToolkit } from "hapi";
 import { ValidationResult } from "hapi-auth-jwt2";
-import { jwtDecode } from "../utils";
+import { jwtDecode, jwtSign } from "../utils";
 import { DecodeOptions } from "jsonwebtoken";
 import User, { IUserModelDocument } from "../user";
 import { isEmailValid, isPasswordValid, isUsernameValid } from "../validation";
@@ -75,13 +75,34 @@ export default class Provider extends ProviderBase<IDefaultProviderOptions> {
 		return user;
 	}
 
-	public async login({ username, password }: ILoginInputs): Promise<string> {
-		return "";
+	public async login({ username, password }: ILoginInputs): Promise<ILoginnResponse> {
+
+		let user = await this.findByUsername(username);
+
+		console.log(user);
+
+		if (!user) {
+			throw Boom.unauthorized("Invalid username or password");
+		}
+
+		if (user.password !== password) {
+			throw Boom.unauthorized("Invalid username or password");
+		}
+
+		let token = jwtSign({
+			email: user.email,
+			username: user.username,
+			password: user.password
+		}, this._options.secret);
+
+		return {
+			tokekn: token
+		};
 	}
 
 	private async findByUsername(username: string): Promise<IUserModelDocument> {
 		let exp = new RegExp("^" + username + "$", "i");
-		let query = User.findOne({username: exp});
+		let query = User.findOne({ username: exp });
 		let r = await query.exec();
 
 		return r;
@@ -96,4 +117,15 @@ export interface IDefaultProviderOptions extends IProviderOptions {
 export interface ILoginInputs {
 	username: string;
 	password: string;
+}
+
+export interface ITokenObject {
+	username: string;
+	email: string;
+	password: string;
+}
+
+export interface ILoginnResponse {
+	tokekn: string;
+	message?: string;
 }
