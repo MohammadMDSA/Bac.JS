@@ -130,7 +130,10 @@ export default class Server {
 
 			let a = new AuthPlugin(this, {
 				secret: this._config.auth.secret,
-				max_session: sessionLimitaion
+				max_session: {
+					limitaion: sessionLimitaion.limitation,
+					limited: sessionLimitaion.limited
+				}
 			});
 
 			await a.register();
