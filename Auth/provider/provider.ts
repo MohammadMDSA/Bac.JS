@@ -6,6 +6,7 @@ import { DecodeOptions } from "jsonwebtoken";
 import User, { IUserModelDocument } from "../user";
 import { isEmailValid, isPasswordValid, isUsernameValid } from "../validation";
 import * as Boom from "boom";
+import { IAuthOptions } from "..";
 
 export default class Provider extends ProviderBase<IDefaultProviderOptions> {
 
@@ -25,18 +26,10 @@ export default class Provider extends ProviderBase<IDefaultProviderOptions> {
 	}
 
 	public verify(decoded: any, request: Request, tk?: ResponseToolkit): ValidationResult | Promise<ValidationResult> {
-		console.log("Validating");
-		if (decoded.id === 1) {
-			return {
-				isValid: true,
-				credentials: null
-			};
-		} else {
-			return {
-				isValid: false,
-				credentials: null
-			};
-		}
+		
+		return {
+			isValid: true
+		};
 	}
 
 	public async signUp(_username: string = "", _password: string = "", _email: string = ""): Promise<IUserModelDocument> {
@@ -91,8 +84,7 @@ export default class Provider extends ProviderBase<IDefaultProviderOptions> {
 
 		let token = jwtSign({
 			email: user.email,
-			username: user.username,
-			password: user.password
+			username: user.username
 		}, this._options.secret);
 
 		return {
@@ -110,8 +102,7 @@ export default class Provider extends ProviderBase<IDefaultProviderOptions> {
 
 }
 
-export interface IDefaultProviderOptions extends IProviderOptions {
-	secret: string;
+export interface IDefaultProviderOptions extends IProviderOptions, IAuthOptions {
 }
 
 export interface ILoginInputs {
@@ -122,7 +113,6 @@ export interface ILoginInputs {
 export interface ITokenObject {
 	username: string;
 	email: string;
-	password: string;
 }
 
 export interface ILoginnResponse {
