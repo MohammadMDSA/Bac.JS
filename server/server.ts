@@ -45,12 +45,12 @@ export default class Server {
 			}
 		}
 	}
-	
+
 	private async assignRoute(prefix: string, path: string): Promise<void> {
 		try {
 			const controller = await import(`.${path}`);
 			let cont: Controller = new controller.default();
-			
+
 			let handlers: IHandler[] = cont.handlers;
 
 			let prser: string[] = path.split("/");
@@ -120,7 +120,18 @@ export default class Server {
 				return;
 			}
 
-			let a = new AuthPlugin(this, { secret: this._config.auth.secret });
+			let sessionLimitaion = this._config.auth.max_sessions;
+
+			if (!sessionLimitaion) {
+				sessionLimitaion = {
+					limited: false
+				};
+			}
+
+			let a = new AuthPlugin(this, {
+				secret: this._config.auth.secret,
+				max_session: sessionLimitaion
+			});
 
 			await a.register();
 
