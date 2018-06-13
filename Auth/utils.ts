@@ -1,5 +1,4 @@
 import * as JWT from "jsonwebtoken";
-import { Request } from "hapi";
 import { ITokenObject } from "./provider/provider";
 
 export function jwtSign(message: ITokenObject, key: JWT.Secret, options?: JWT.SignOptions): string {
