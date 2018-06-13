@@ -6,12 +6,12 @@ import Auth from "./AuthController";
 import Server from "../server/server";
 
 export default class AuthPlugin extends Plugin<IAuthOptions> {
-	
+
 	private _provider: Provider;
 
 	constructor(server: Server, options: IAuthOptions) {
 		super(server, options);
-		this._provider = new Provider({secret: this._options.secret});
+		this._provider = new Provider(options);
 	}
 
 	public async register(): Promise<void> {
@@ -33,4 +33,8 @@ export default class AuthPlugin extends Plugin<IAuthOptions> {
 
 export interface IAuthOptions extends IPluginOptions {
 	secret: string;
+	max_session: {
+		limited: boolean,
+		limitaion?: number;
+	};
 }
