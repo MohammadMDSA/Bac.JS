@@ -16,12 +16,13 @@ export default class Auth extends Controller {
         this._prefix = "/auth";
 
         const signUp = async (request: Request, h: ResponseToolkit) => {
-            let {username, password, email} = request.payload as any;
+            let { username, password, email } = request.payload as any;
             return await this._provider.signUp(username, password, email);
         };
 
         const login = async (request: Request, h: ResponseToolkit) => {
-            
+            let { username, password } = request.payload as any;
+            return await this._provider.login({ password, username });
         };
 
         const logout = async (request: Request, h: ResponseToolkit) => {
@@ -29,13 +30,13 @@ export default class Auth extends Controller {
         };
 
         const user = async (request: Request, h: ResponseToolkit) => {
-
+            
         };
 
-        this.assign("/login", [RequestType.POST], login, {auth: false});
-        this.assign("/logout", AnyRequestType.Any, logout, {auth: "jwt"});
-        this.assign("/user", [RequestType.GET], user, {auth: false});
-        this.assign("/signup", [RequestType.POST], signUp, {auth: false});
+        this.assign("/login", [RequestType.POST], login, { auth: false });
+        this.assign("/logout", AnyRequestType.Any, logout, { auth: "jwt" });
+        this.assign("/user", [RequestType.GET], user, { auth: false });
+        this.assign("/signup", [RequestType.POST], signUp, { auth: false });
     }
 
 }
