@@ -1,7 +1,6 @@
 import * as JWT from "hapi-auth-jwt2";
 import Provider from "./provider/provider";
 import Plugin, { IPluginOptions } from "../server/pluginBase";
-import * as Hapi from "hapi";
 import Auth from "./AuthController";
 import Server from "../server/server";
 
