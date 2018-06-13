@@ -3,10 +3,11 @@ import { Request, ResponseToolkit } from "hapi";
 import { ValidationResult } from "hapi-auth-jwt2";
 import { jwtDecode, jwtSign } from "../utils";
 import { DecodeOptions } from "jsonwebtoken";
-import User, { IUserModelDocument } from "../user";
+import User, { IUserModelDocument, ISession } from "../user";
 import { isEmailValid, isPasswordValid, isUsernameValid } from "../validation";
 import * as Boom from "boom";
 import { IAuthOptions } from "..";
+import * as _ from "lodash";
 
 export default class Provider extends ProviderBase<IDefaultProviderOptions> {
 
@@ -16,8 +17,6 @@ export default class Provider extends ProviderBase<IDefaultProviderOptions> {
 
 	public authenticateToken(token: string, options?: DecodeOptions): ValidationResult {
 
-		let decoded = jwtDecode(token, options);
-
 		return null;
 	}
 
@@ -26,7 +25,7 @@ export default class Provider extends ProviderBase<IDefaultProviderOptions> {
 	}
 
 	public verify(decoded: any, request: Request, tk?: ResponseToolkit): ValidationResult | Promise<ValidationResult> {
-		
+
 		return {
 			isValid: true
 		};
@@ -34,13 +33,9 @@ export default class Provider extends ProviderBase<IDefaultProviderOptions> {
 
 	public async signUp(_username: string = "", _password: string = "", _email: string = ""): Promise<IUserModelDocument> {
 
-		console.log(`inside sign in ${_username} ${_password} ${_email}`);
-
 		let email = String(_email);
 		let password = String(_password);
 		let username = String(_username);
-
-		console.log(`inside sign in ${username} ${password} ${email}`);
 
 		let res = await isUsernameValid(username);
 		if (!res.result) {
@@ -68,11 +63,9 @@ export default class Provider extends ProviderBase<IDefaultProviderOptions> {
 		return user;
 	}
 
-	public async login({ username, password }: ILoginInputs): Promise<ILoginnResponse> {
+	public async login({ username, password, request }: ILoginInputs): Promise<ILoginResponse> {
 
 		let user = await this.findByUsername(username);
-
-		console.log(user);
 
 		if (!user) {
 			throw Boom.unauthorized("Invalid username or password");
@@ -82,9 +75,23 @@ export default class Provider extends ProviderBase<IDefaultProviderOptions> {
 			throw Boom.unauthorized("Invalid username or password");
 		}
 
+		let session: ISession = {
+			createdAt: Date.now(),
+			ip: request.info.remoteAddress
+		};
+
+		user.sessions.push(session);
+		
+		if (this._options.max_session.limited && user.sessions.length >= this._options.max_session.limitaion) {
+			user.sessions = _.sortBy(user.sessions, ["createdAt"]).reverse().slice(0, this._options.max_session.limitaion);
+		}
+
+		user.save();
+
 		let token = jwtSign({
 			email: user.email,
-			username: user.username
+			username: user.username,
+			session: session
 		}, this._options.secret);
 
 		return {
@@ -108,14 +115,16 @@ export interface IDefaultProviderOptions extends IProviderOptions, IAuthOptions 
 export interface ILoginInputs {
 	username: string;
 	password: string;
+	request: Request;
 }
 
 export interface ITokenObject {
 	username: string;
 	email: string;
+	session: ISession;
 }
 
-export interface ILoginnResponse {
+export interface ILoginResponse {
 	tokekn: string;
 	message?: string;
 }
