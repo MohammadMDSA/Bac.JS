@@ -75,13 +75,37 @@ export default class Provider extends ProviderBase<IDefaultProviderOptions> {
 			throw Boom.unauthorized("Invalid username or password");
 		}
 
+		for (let i = 0; i < user.sessions.length; i++) {
+			if (this.isSessionExpired) {
+				console.log("!");
+				user.sessions.splice(i, 1);
+			}
+		}
+
+		for (let ses of user.sessions) {
+			if (ses.ip === request.info.remoteAddress) {
+
+				user.save();
+
+				let tok = jwtSign({
+					email: user.email,
+					username: user.username,
+					session: ses
+				}, this._options.secret);
+
+				return {
+					tokekn: tok
+				};
+			}
+		}
+
 		let session: ISession = {
 			createdAt: Date.now(),
 			ip: request.info.remoteAddress
 		};
 
 		user.sessions.push(session);
-		
+
 		if (this._options.session.limited && user.sessions.length >= this._options.session.limitaion) {
 			user.sessions = _.sortBy(user.sessions, ["createdAt"]).reverse().slice(0, this._options.session.limitaion);
 		}
@@ -105,6 +129,10 @@ export default class Provider extends ProviderBase<IDefaultProviderOptions> {
 		let r = await query.exec();
 
 		return r;
+	}
+
+	private isSessionExpired(session: ISession): boolean {
+		return this._options.session.expiredAfter && !(Date.now() - session.createdAt < this._options.session.expiredAfter);
 	}
 
 }
