@@ -18,6 +18,8 @@
   },
   "homepage": "https://github.com/MohammadMDSA/TodoApiServer#readme",
   "dependencies": {
+    "@types/bcrypt": "^2.0.0",
+    "@types/bcryptjs": "^2.4.1",
     "@types/hapi": "^17.0.12",
     "@types/hapi-auth-jwt2": "^8.0.1",
     "@types/jsonwebtoken": "^7.2.7",
