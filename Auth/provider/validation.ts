@@ -63,7 +63,6 @@ export function isPasswordValid(password: string): IValidationResult {
 }
 
 export async function isUsernameValid(username: string): Promise<IValidationResult> {
-    console.log(username.length);
 
     if (username.length < 6) {
         return {
