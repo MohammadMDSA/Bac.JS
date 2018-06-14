@@ -120,7 +120,7 @@ export default class Server {
 				return;
 			}
 
-			let sessionLimitaion = this._config.auth.max_sessions;
+			let sessionLimitaion = this._config.auth.session;
 
 			if (!sessionLimitaion) {
 				sessionLimitaion = {
@@ -128,11 +128,16 @@ export default class Server {
 				};
 			}
 
+			if(!sessionLimitaion.expiredAfter) {
+				sessionLimitaion.expiredAfter = Date.UTC(0, 1);
+			}
+
 			let a = new AuthPlugin(this, {
 				secret: this._config.auth.secret,
-				max_session: {
+				session: {
 					limitaion: sessionLimitaion.limitation,
-					limited: sessionLimitaion.limited
+					limited: sessionLimitaion.limited,
+					expiredAfter: sessionLimitaion.expiredAfter
 				}
 			});
 

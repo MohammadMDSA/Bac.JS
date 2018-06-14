@@ -32,8 +32,9 @@ export default class AuthPlugin extends Plugin<IAuthOptions> {
 
 export interface IAuthOptions extends IPluginOptions {
 	secret: string;
-	max_session: {
+	session: {
 		limited: boolean,
 		limitaion?: number;
+		expiredAfter: number
 	};
 }

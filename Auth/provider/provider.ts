@@ -82,8 +82,8 @@ export default class Provider extends ProviderBase<IDefaultProviderOptions> {
 
 		user.sessions.push(session);
 		
-		if (this._options.max_session.limited && user.sessions.length >= this._options.max_session.limitaion) {
-			user.sessions = _.sortBy(user.sessions, ["createdAt"]).reverse().slice(0, this._options.max_session.limitaion);
+		if (this._options.session.limited && user.sessions.length >= this._options.session.limitaion) {
+			user.sessions = _.sortBy(user.sessions, ["createdAt"]).reverse().slice(0, this._options.session.limitaion);
 		}
 
 		user.save();

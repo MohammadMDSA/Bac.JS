@@ -23,8 +23,9 @@ interface IMongoConfig {
 
 interface IAuth {
     secret: string;
-    max_sessions?: {
+    session?: {
         limited: boolean;
         limitation?: number;
+        expiredAfter?: number
     };
 }
