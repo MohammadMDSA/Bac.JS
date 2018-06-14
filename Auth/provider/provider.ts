@@ -3,16 +3,24 @@ import { Request, ResponseToolkit } from "hapi";
 import { ValidationResult } from "hapi-auth-jwt2";
 import { jwtDecode, jwtSign } from "../provider/utils";
 import { DecodeOptions } from "jsonwebtoken";
-import User, { IUserModelDocument, ISession } from "../user/user";
+import User, { IUserModelDocument } from "../user/user";
 import { isEmailValid, isPasswordValid, isUsernameValid } from "../provider/validation";
 import * as Boom from "boom";
 import { IAuthOptions } from "..";
 import * as _ from "lodash";
+import Session, { ISession } from "../user/session";
 
 export default class Provider extends ProviderBase<IDefaultProviderOptions> {
 
+	private static _provider;
+
 	constructor(options: IDefaultProviderOptions) {
 		super(options);
+		Provider._provider = this;
+	}
+
+	static get provider(): Provider {
+		return Provider._provider;
 	}
 
 	public authenticateToken(token: string, options?: DecodeOptions): ValidationResult {
@@ -65,8 +73,7 @@ export default class Provider extends ProviderBase<IDefaultProviderOptions> {
 		}
 
 		for (let i = 0; i < user.sessions.length; i++) {
-			if (this.isSessionExpired(user.sessions[i])) {
-				console.log("!");
+			if (Session.isExpired(this._options.session.expiredAfter, user.sessions[i])) {
 				user.sessions.splice(i, 1);
 			}
 		}
@@ -88,10 +95,7 @@ export default class Provider extends ProviderBase<IDefaultProviderOptions> {
 			}
 		}
 
-		let session: ISession = {
-			createdAt: Date.now(),
-			ip: request.info.remoteAddress
-		};
+		let session: Session = new Session(Date.now(), request.info.remoteAddress);
 
 		user.sessions.push(session);
 
@@ -104,7 +108,10 @@ export default class Provider extends ProviderBase<IDefaultProviderOptions> {
 		let token = jwtSign({
 			email: user.email,
 			username: user.username,
-			session: session
+			session: {
+				createdAt: session.createdAt,
+				ip: session.ip
+			}
 		}, this._options.secret);
 
 		return {
@@ -120,31 +127,11 @@ export default class Provider extends ProviderBase<IDefaultProviderOptions> {
 		return r;
 	}
 
-	private isSessionExpired(session: ISession): boolean {
-		if (!this._options.session.expiredAfter) {
-			return false;
-		}
-
-		return !(Date.now() - session.createdAt < this._options.session.expiredAfter);
-	}
-
 	public verify(decoded: ITokenObject, request: Request, tk?: ResponseToolkit): ValidationResult | Promise<ValidationResult> {
 
-		console.log(decoded.session.createdAt + "dsf");
-		console.log(this._options.session.expiredAfter + "df");
-		console.log(decoded.session.createdAt + "sdf");
-
-		if (!this._options.session.expiredAfter) {
+		if (Session.isExpired(Provider.provider._options.session.expiredAfter, decoded.session)) {
 			return {
-				isValid: true
-			};
-		}
-
-		if (!(Date.now() - decoded.session.createdAt < this._options.session.expiredAfter)) {
-			console.log("heh");
-
-			return {
-				isValid: false
+				isValid: false,
 			};
 		}
 
@@ -167,7 +154,7 @@ export interface ILoginInputs {
 export interface ITokenObject {
 	username: string;
 	email: string;
-	session: ISession;
+	session: Session;
 }
 
 export interface ILoginResponse {
