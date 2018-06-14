@@ -1,5 +1,6 @@
 import * as JWT from "jsonwebtoken";
 import { ITokenObject } from "../provider/provider";
+import * as Bcrypt from "bcryptjs";
 
 export function jwtSign(message: ITokenObject, key: JWT.Secret, options?: JWT.SignOptions): string {
     return JWT.sign(message, key, options);
@@ -16,3 +17,8 @@ export async function jwtVerify(message: string, key: string | Buffer, options?:
 export function getIP(request) {
     return request.ip || request.headers["x-real-ip"] || request.headers["x-forwarded-for"] || request.info["remoteAddress"];
 }
+
+export async function bcrypt_hash(data: string): Promise<string> {
+    let salt = await Bcrypt.genSalt(10);
+    return await Bcrypt.hash(data, salt);
+} 
