@@ -9,10 +9,6 @@ export default abstract class ProviderBase<T extends IProviderOptions> {
 		this._options = options;
 	}
 
-	public abstract authenticateToken(token: string): ValidationResult;
-
-	public abstract validateToken(token: string, secret: string): Promise<object | string>;
-
 	public abstract verify(decoded: any, request: Request, tk?: ResponseToolkit): ValidationResult | Promise<ValidationResult>;
 }
 

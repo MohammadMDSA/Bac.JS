@@ -1,10 +1,10 @@
 import ProviderBase, { IProviderOptions } from "./providerBase";
 import { Request, ResponseToolkit } from "hapi";
 import { ValidationResult } from "hapi-auth-jwt2";
-import { jwtDecode, jwtSign } from "../utils";
+import { jwtDecode, jwtSign } from "../provider/utils";
 import { DecodeOptions } from "jsonwebtoken";
-import User, { IUserModelDocument, ISession } from "../user";
-import { isEmailValid, isPasswordValid, isUsernameValid } from "../validation";
+import User, { IUserModelDocument, ISession } from "../user/user";
+import { isEmailValid, isPasswordValid, isUsernameValid } from "../provider/validation";
 import * as Boom from "boom";
 import { IAuthOptions } from "..";
 import * as _ from "lodash";
@@ -18,17 +18,6 @@ export default class Provider extends ProviderBase<IDefaultProviderOptions> {
 	public authenticateToken(token: string, options?: DecodeOptions): ValidationResult {
 
 		return null;
-	}
-
-	public validateToken(token: string, secret: string): Promise<object | string> {
-		return null;
-	}
-
-	public verify(decoded: any, request: Request, tk?: ResponseToolkit): ValidationResult | Promise<ValidationResult> {
-
-		return {
-			isValid: true
-		};
 	}
 
 	public async signUp(_username: string = "", _password: string = "", _email: string = ""): Promise<IUserModelDocument> {
@@ -76,7 +65,7 @@ export default class Provider extends ProviderBase<IDefaultProviderOptions> {
 		}
 
 		for (let i = 0; i < user.sessions.length; i++) {
-			if (this.isSessionExpired) {
+			if (this.isSessionExpired(user.sessions[i])) {
 				console.log("!");
 				user.sessions.splice(i, 1);
 			}
@@ -132,7 +121,36 @@ export default class Provider extends ProviderBase<IDefaultProviderOptions> {
 	}
 
 	private isSessionExpired(session: ISession): boolean {
-		return this._options.session.expiredAfter && !(Date.now() - session.createdAt < this._options.session.expiredAfter);
+		if (!this._options.session.expiredAfter) {
+			return false;
+		}
+
+		return !(Date.now() - session.createdAt < this._options.session.expiredAfter);
+	}
+
+	public verify(decoded: ITokenObject, request: Request, tk?: ResponseToolkit): ValidationResult | Promise<ValidationResult> {
+
+		console.log(decoded.session.createdAt + "dsf");
+		console.log(this._options.session.expiredAfter + "df");
+		console.log(decoded.session.createdAt + "sdf");
+
+		if (!this._options.session.expiredAfter) {
+			return {
+				isValid: true
+			};
+		}
+
+		if (!(Date.now() - decoded.session.createdAt < this._options.session.expiredAfter)) {
+			console.log("heh");
+
+			return {
+				isValid: false
+			};
+		}
+
+		return {
+			isValid: true
+		};
 	}
 
 }

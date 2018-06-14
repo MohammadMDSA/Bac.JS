@@ -1,5 +1,6 @@
-import DBModel from "../MongoDB/Model";
+import DBModel from "../../MongoDB/Model";
 import { SchemaDefinition, Document } from "mongoose";
+import Session from "./session";
 
 class User extends DBModel {
     protected static $schema(): SchemaDefinition {
@@ -25,10 +26,5 @@ export interface IUserModelDocument extends Document {
     username: string;
     password: string;
     email: string;
-    sessions: ISession[];
-}
-
-export interface ISession {
-    createdAt: number;
-    ip: string;
+    sessions: Session[];
 }

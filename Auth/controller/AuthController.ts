@@ -1,6 +1,6 @@
-import Controller, { RequestType, AnyRequestType } from "../server/controller";
+import Controller, { RequestType, AnyRequestType } from "../../server/controller";
 import { Request, ResponseToolkit } from "hapi";
-import Provider from "./provider/provider";
+import Provider from "../provider/provider";
 
 export default class Auth extends Controller {
 

@@ -1,5 +1,4 @@
-import user from "./user";
-import { inspect } from "util";
+import user from "../user/user";
 
 export async function isEmailValid(email: string): Promise<IValidationResult> {
     let exp = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
