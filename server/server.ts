@@ -128,10 +128,6 @@ export default class Server {
 				};
 			}
 
-			if(!sessionLimitaion.expiredAfter) {
-				sessionLimitaion.expiredAfter = Date.UTC(0, 1);
-			}
-
 			let a = new AuthPlugin(this, {
 				secret: this._config.auth.secret,
 				session: {

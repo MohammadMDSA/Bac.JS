@@ -35,6 +35,6 @@ export interface IAuthOptions extends IPluginOptions {
 	session: {
 		limited: boolean,
 		limitaion?: number;
-		expiredAfter: number
+		expiredAfter?: number
 	};
 }
