@@ -22,6 +22,10 @@ export default appConfig = {
     },
 
     auth: {
-        secret: "a simple secret"
+        secret: "a simple secret",
+        session: {
+            limited: true,
+            limitation: 4
+        }
     }
 };
