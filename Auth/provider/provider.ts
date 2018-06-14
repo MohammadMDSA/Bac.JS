@@ -1,7 +1,7 @@
 import ProviderBase, { IProviderOptions } from "./providerBase";
 import { Request, ResponseToolkit } from "hapi";
 import { ValidationResult } from "hapi-auth-jwt2";
-import { jwtDecode, jwtSign } from "../provider/utils";
+import { jwtDecode, jwtSign, bcryptHash, bcryptCompare } from "../provider/utils";
 import { DecodeOptions } from "jsonwebtoken";
 import User, { IUserModelDocument } from "../user/user";
 import { isEmailValid, isPasswordValid, isUsernameValid } from "../provider/validation";
@@ -28,7 +28,7 @@ export default class Provider extends ProviderBase<IDefaultProviderOptions> {
 		return null;
 	}
 
-	public async signUp(_username: string = "", _password: string = "", _email: string = ""): Promise<IUserModelDocument> {
+	public async signUp(_username: string = "", _password: string = "", _email: string = ""): Promise<any> {
 
 		let email = String(_email);
 		let password = String(_password);
@@ -49,15 +49,20 @@ export default class Provider extends ProviderBase<IDefaultProviderOptions> {
 			throw Boom.badRequest(res.message);
 		}
 
+		let hashPass = await bcryptHash(password);
+
 		let user = new User({
 			username: username,
-			password: password,
+			password: hashPass,
 			email: email.toLowerCase()
 		});
 
 		user.save();
 
-		return user;
+		return {
+			username: user.username,
+			email: user.email
+		};
 	}
 
 	public async login({ username, password, request }: ILoginInputs): Promise<ILoginResponse> {
@@ -68,7 +73,7 @@ export default class Provider extends ProviderBase<IDefaultProviderOptions> {
 			throw Boom.unauthorized("Invalid username or password");
 		}
 
-		if (user.password !== password) {
+		if (!bcryptCompare(password, user.password)) {
 			throw Boom.unauthorized("Invalid username or password");
 		}
 
