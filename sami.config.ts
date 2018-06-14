@@ -25,7 +25,8 @@ export default appConfig = {
         secret: "a simple secret",
         session: {
             limited: true,
-            limitation: 4
+            limitation: 4,
+            expiredAfter: Date.UTC(0, 0, 0, 0, 0, 10) - Date.UTC(0, 0)
         }
     }
 };
