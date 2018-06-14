@@ -18,7 +18,11 @@ export function getIP(request) {
     return request.ip || request.headers["x-real-ip"] || request.headers["x-forwarded-for"] || request.info["remoteAddress"];
 }
 
-export async function bcrypt_hash(data: string): Promise<string> {
+export async function bcryptHash(data: string): Promise<string> {
     let salt = await Bcrypt.genSalt(10);
     return await Bcrypt.hash(data, salt);
-} 
+}
+
+export async function bcryptCompare(data: string, hash: string): Promise<boolean> {
+    return await Bcrypt.compare(data, hash);
+}
