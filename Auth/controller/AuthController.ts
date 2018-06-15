@@ -30,9 +30,7 @@ export default class Auth extends Controller {
         };
 
         const user = async (request: Request, h: ResponseToolkit) => {
-            console.log(request);
-            // return await this._provider.authenticateToken(request.headers)
-            return "";
+            return await this._provider.getUser(request);
         };
 
         this.assign("/login", [RequestType.POST], login, { auth: false });
