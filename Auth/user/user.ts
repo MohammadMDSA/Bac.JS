@@ -4,8 +4,12 @@ import Session from "./session";
 
 export class UserModel extends DBModel {
 
-    protected static $hidden(): string[] {
-        return ["password"];
+    protected static $visible(): string[] {
+        return ["username", "email", "sessions"];
+    }
+
+    public static get collectionName(): string {
+        return "user";
     }
 
     protected static $schema(): SchemaDefinition {
@@ -17,7 +21,7 @@ export class UserModel extends DBModel {
             sessions: [
                 {
                     createdAt: { type: Date, default: Date.now() },
-                    ip: {type: String}
+                    ip: { type: String }
                 }
             ]
         };
