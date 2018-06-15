@@ -17,17 +17,15 @@ export default abstract class DBModel {
 
 	public static transform<T extends Document>(document: T): Partial<T> {
 
-		let result: Partial<T> = document;
-
-		console.log(this.$visible());
-
 		if (this.$visible()) {
-			result = _.pickBy<T>(document, (value, key) => this.$visible().indexOf(key) !== -1);
+			console.log(this.$visible());
+			return _.pickBy<T>(document, (value, key) => this.$visible().indexOf(key) !== -1);
 		}
 		else if (this.$hidden()) {
-			result = _.omitBy<T>(document, (value, key) => this.$hidden().indexOf(key) !== -1);
+			console.log(this.$hidden());
+			return _.omitBy<T>(document, (value, key) => this.$hidden().indexOf(key) !== -1);
 		}
-		return result;
+		return document;
 	}
 
 }
