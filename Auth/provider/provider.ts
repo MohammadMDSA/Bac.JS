@@ -123,6 +123,22 @@ export default class Provider extends ProviderBase<IDefaultProviderOptions> {
 		};
 	}
 
+	public async getUser(request: Request): Promise<Partial<IUserModelDocument>> {
+		let decoded: IUserModelDocument = jwtDecode(request.headers["authorization"]) as IUserModelDocument;
+
+		if (!decoded) {
+			throw Boom.badRequest("Could not get user data");
+		}
+
+		let user = await this.findByUsername(decoded.username);
+
+		if (!user) {
+			throw Boom.badRequest("Could not get user data");
+		}
+
+		return UserModel.transform<IUserModelDocument>(user);
+	}
+
 	private async findByUsername(username: string): Promise<IUserModelDocument> {
 		let exp = new RegExp("^" + username + "$", "i");
 		let query = User.findOne({ username: exp });
