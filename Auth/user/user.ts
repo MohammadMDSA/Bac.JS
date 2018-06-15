@@ -4,8 +4,8 @@ import Session from "./session";
 
 export class UserModel extends DBModel {
 
-    protected static $visible(): string[] {
-        return ["username", "email", "sessions"];
+    protected static $hidden(): string[] {
+        return ["password"];
     }
 
     protected static $schema(): SchemaDefinition {
