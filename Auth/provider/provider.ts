@@ -3,12 +3,14 @@ import { Request, ResponseToolkit } from "hapi";
 import { ValidationResult } from "hapi-auth-jwt2";
 import { jwtDecode, jwtSign, bcryptHash, bcryptCompare } from "../provider/utils";
 import { DecodeOptions } from "jsonwebtoken";
-import User, { IUserModelDocument } from "../user/user";
+import User, { IUserModelDocument, UserModel } from "../user/user";
 import { isEmailValid, isPasswordValid, isUsernameValid } from "../provider/validation";
 import * as Boom from "boom";
 import { IAuthOptions } from "..";
 import * as _ from "lodash";
-import Session, { ISession } from "../user/session";
+import Session from "../user/session";
+import DBModel from "../../MongoDB/Model";
+import { URLSearchParams } from "url";
 
 export default class Provider extends ProviderBase<IDefaultProviderOptions> {
 
@@ -28,7 +30,7 @@ export default class Provider extends ProviderBase<IDefaultProviderOptions> {
 		return null;
 	}
 
-	public async signUp(_username: string = "", _password: string = "", _email: string = ""): Promise<any> {
+	public async signUp(_username: string = "", _password: string = "", _email: string = ""): Promise<Partial<IUserModelDocument>> {
 
 		let email = String(_email);
 		let password = String(_password);
@@ -59,10 +61,7 @@ export default class Provider extends ProviderBase<IDefaultProviderOptions> {
 
 		user.save();
 
-		return {
-			username: user.username,
-			email: user.email
-		};
+		return UserModel.transform<IUserModelDocument>(user);
 	}
 
 	public async login({ username, password, request }: ILoginInputs): Promise<ILoginResponse> {
