@@ -26,11 +26,9 @@ export default abstract class DBModel {
 	public static transform<T extends Document>(document: T): Partial<T> {
 
 		if (this.$visible()) {
-			console.log(this.$visible());
 			return _.pickBy<T>(document, (value, key) => this.$visible().indexOf(key) !== -1);
 		}
 		else if (this.$hidden()) {
-			console.log(this.$hidden());
 			return _.omitBy<T>(document, (value, key) => this.$hidden().indexOf(key) !== -1);
 		}
 		return document;
