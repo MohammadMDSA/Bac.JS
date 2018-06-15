@@ -2,7 +2,12 @@ import DBModel from "../../MongoDB/Model";
 import { SchemaDefinition, Document } from "mongoose";
 import Session from "./session";
 
-class User extends DBModel {
+export class UserModel extends DBModel {
+
+    protected static $visible(): string[] {
+        return ["username", "email", "sessions"];
+    }
+
     protected static $schema(): SchemaDefinition {
 
         return {
@@ -20,11 +25,11 @@ class User extends DBModel {
     }
 }
 
-export default User.$model<IUserModelDocument>();
+export default UserModel.$model<IUserModelDocument>();
 
 export interface IUserModelDocument extends Document {
-    username: string;
     password: string;
+    username: string;
     email: string;
     sessions: Session[];
 }
