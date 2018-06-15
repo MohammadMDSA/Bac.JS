@@ -5,6 +5,8 @@ export default abstract class DBModel {
 
 	protected static $visible(): string[] { return null; }
 
+	protected static $hidden(): string[] { return null; }
+
 	protected static $schema(): SchemaDefinition { return null; }
 
 	public static $model<T extends Document>(): Model<T> {
@@ -18,9 +20,12 @@ export default abstract class DBModel {
 		let result: Partial<T> = document;
 
 		console.log(this.$visible());
-		
+
 		if (this.$visible()) {
 			result = _.pickBy<T>(document, (value, key) => this.$visible().indexOf(key) !== -1);
+		}
+		else if (this.$hidden()) {
+			result = _.omitBy<T>(document, (value, key) => this.$hidden().indexOf(key) !== -1);
 		}
 		return result;
 	}
