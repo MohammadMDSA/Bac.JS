@@ -9,10 +9,18 @@ export default abstract class DBModel {
 
 	protected static $schema(): SchemaDefinition { return null; }
 
+	public static get collectionName(): string { return null; }
+
 	public static $model<T extends Document>(): Model<T> {
 		const schema: Schema = new Schema(this.$schema());
 
-		return model(this.prototype.constructor.name, schema);
+		if (this.collectionName) {
+			return model(this.collectionName, schema);
+		}
+		else {
+			return model(this.prototype.constructor.name, schema);
+		}
+
 	}
 
 	public static transform<T extends Document>(document: T): Partial<T> {
