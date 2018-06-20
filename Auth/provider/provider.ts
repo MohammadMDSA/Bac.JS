@@ -135,7 +135,7 @@ export default class Provider extends ProviderBase<IDefaultProviderOptions> {
 		return UserModel.transform<IUserModelDocument>(user);
 	}
 
-	private async logout(request: Request) {
+	public async logout(request: Request) {
 		let tokenObject = jwtDecode(request.headers["authorization"]) as ITokenObject;
 		let tokenSession = tokenObject.session;
 		let user = await this.findByUsername(tokenObject.username);

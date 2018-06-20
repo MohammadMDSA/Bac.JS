@@ -26,7 +26,7 @@ export default class Auth extends Controller {
         };
 
         const logout = async (request: Request, h: ResponseToolkit) => {
-
+            return await this._provider.logout(request);
         };
 
         const user = async (request: Request, h: ResponseToolkit) => {
