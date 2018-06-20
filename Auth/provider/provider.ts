@@ -2,15 +2,12 @@ import ProviderBase, { IProviderOptions } from "./providerBase";
 import { Request, ResponseToolkit } from "hapi";
 import { ValidationResult } from "hapi-auth-jwt2";
 import { jwtDecode, jwtSign, bcryptHash, bcryptCompare } from "../provider/utils";
-import { DecodeOptions } from "jsonwebtoken";
 import User, { IUserModelDocument, UserModel } from "../user/user";
 import { isEmailValid, isPasswordValid, isUsernameValid } from "../provider/validation";
 import * as Boom from "boom";
 import { IAuthOptions } from "..";
 import * as _ from "lodash";
 import Session from "../user/session";
-import DBModel from "../../MongoDB/Model";
-import { URLSearchParams } from "url";
 
 export default class Provider extends ProviderBase<IDefaultProviderOptions> {
 
@@ -23,11 +20,6 @@ export default class Provider extends ProviderBase<IDefaultProviderOptions> {
 
 	static get provider(): Provider {
 		return Provider._provider;
-	}
-
-	public authenticateToken(token: string, options?: DecodeOptions): ValidationResult {
-
-		return null;
 	}
 
 	public async signUp(_username: string = "", _password: string = "", _email: string = ""): Promise<Partial<IUserModelDocument>> {
@@ -76,11 +68,15 @@ export default class Provider extends ProviderBase<IDefaultProviderOptions> {
 			throw Boom.unauthorized("Invalid username or password");
 		}
 
-		for (let i = 0; i < user.sessions.length; i++) {
-			if (Session.isExpired(this._options.session.expiredAfter, user.sessions[i])) {
-				user.sessions.splice(i, 1);
-			}
-		}
+		// for (let i = 0; i < user.sessions.length; i++) {
+		// 	if (Session.isExpired(this._options.session.expiredAfter, user.sessions[i])) {
+		// 		user.sessions.splice(i, 1);
+		// 	}
+		// }
+
+		user.sessions = user.sessions.filter((sess, index, parent) =>
+			!Session.isExpired(this._options.session.expiredAfter, sess) 
+		);
 
 		for (let ses of user.sessions) {
 			if (ses.ip === request.info.remoteAddress) {
@@ -137,6 +133,16 @@ export default class Provider extends ProviderBase<IDefaultProviderOptions> {
 		}
 
 		return UserModel.transform<IUserModelDocument>(user);
+	}
+
+	private async logout(request: Request) {
+		let tokenObject = jwtDecode(request.headers["authorization"]) as ITokenObject;
+		let tokenSession = tokenObject.session;
+		let user = await this.findByUsername(tokenObject.username);
+
+		user.sessions = user.sessions.filter((ses, index, parent) => 
+			ses.ip !== tokenObject.session.ip || ses.createdAt !== tokenObject.session.createdAt
+		);
 	}
 
 	private async findByUsername(username: string): Promise<IUserModelDocument> {
