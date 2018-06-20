@@ -144,7 +144,7 @@ export default class Server {
 		}
 	}
 
-	get CoreServer(): Hapi.Server {
+	get coreServer(): Hapi.Server {
 		return this.server;
 	}
 

@@ -14,7 +14,7 @@ export default class AuthPlugin extends Plugin<IAuthOptions> {
 	}
 
 	public async register(): Promise<void> {
-		await this._server.CoreServer.register(JWT);
+		await this._server.coreServer.register(JWT);
 
 		let authOptions: JWT.Options = {
 			key: this._options.secret,
@@ -22,8 +22,8 @@ export default class AuthPlugin extends Plugin<IAuthOptions> {
 			verifyOptions: { algorithms: ["HS256"] }
 		};
 
-		this._server.CoreServer.auth.strategy("jwt", "jwt", authOptions);
-		this._server.CoreServer.auth.default("jwt");
+		this._server.coreServer.auth.strategy("jwt", "jwt", authOptions);
+		this._server.coreServer.auth.default("jwt");
 
 		let authController = new Auth(this._provider);
 		this._server.assignHandlers(authController.handlers, authController.prefix);
