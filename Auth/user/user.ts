@@ -31,7 +31,7 @@ export class UserModel extends DBModel {
 
 let mode: Model<IUserModelDocument>;
 
-export default UserModel.$model<IUserModelDocument>();
+export default mode = UserModel.$model<IUserModelDocument>();
 
 export interface IUserModelDocument extends Document {
     password: string;
