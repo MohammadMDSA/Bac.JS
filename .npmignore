@@ -19,3 +19,4 @@ yarn-error.log
 sami.config.ts
 tslint.json
 app.ts
+.tsconfig
