@@ -4,6 +4,8 @@
         "module": "commonjs",
         "lib": ["es5", "es2015"],
         "sourceMap": true,
-        "outDir": "out/"
-    }    
+        "outDir": "out/",
+        "strict": true,
+        "declaration": true
+    }
 }
