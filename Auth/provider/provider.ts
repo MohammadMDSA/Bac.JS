@@ -90,7 +90,7 @@ export default class Provider extends ProviderBase<IDefaultProviderOptions> {
 				}, this._options.secret);
 
 				return {
-					tokekn: tok
+					token: tok
 				};
 			}
 		}
@@ -115,7 +115,7 @@ export default class Provider extends ProviderBase<IDefaultProviderOptions> {
 		}, this._options.secret);
 
 		return {
-			tokekn: token
+			token: token
 		};
 	}
 
@@ -141,8 +141,12 @@ export default class Provider extends ProviderBase<IDefaultProviderOptions> {
 		let user = await this.findByUsername(tokenObject.username);
 
 		user.sessions = user.sessions.filter((ses, index, parent) => 
-			ses.ip !== tokenObject.session.ip || ses.createdAt !== tokenObject.session.createdAt
+			ses.ip !== tokenObject.session.ip
 		);
+
+		user.save();
+		
+		return "DONE";
 	}
 
 	private async findByUsername(username: string): Promise<IUserModelDocument> {
@@ -184,6 +188,6 @@ export interface ITokenObject {
 }
 
 export interface ILoginResponse {
-	tokekn: string;
+	token: string;
 	message?: string;
 }

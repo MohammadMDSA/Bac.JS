@@ -1,4 +1,4 @@
-import IConfig from "./server/config";
+import { IConfig } from "./server/server";
 
 let appConfig: IConfig;
 
@@ -22,7 +22,7 @@ export default appConfig = {
     },
 
     auth: {
-        secret: "a simple secret",
+        secret: "My secret",
         session: {
             limited: true,
             limitation: 4,
