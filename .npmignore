@@ -8,7 +8,9 @@ yarn-error.log
 /controllers
 /models
 /server
-MongoDB
+/MongoDB
+/out/controllers
+/out/models
 /out/app.js
 /out/app.js.map
 /out/app.d.ts
