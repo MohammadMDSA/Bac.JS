@@ -1,5 +1,4 @@
 /node_modules
-/out
 .env
 /.vscode
 *.log
@@ -8,6 +7,7 @@ yarn-error.log
 /Auth
 /controllers
 /models
+/server
 MongoDB
 /out/app.js
 /out/app.js.map
@@ -16,3 +16,4 @@ MongoDB
 /out/sami.config.js.map
 sami.config.ts
 tslint.json
+app.ts
