@@ -1,5 +1,5 @@
 import DBModel from "../../MongoDB/Model";
-import { SchemaDefinition, Document } from "mongoose";
+import { SchemaDefinition, Document, Model } from "mongoose";
 import Session from "./session";
 
 export class UserModel extends DBModel {
@@ -28,6 +28,8 @@ export class UserModel extends DBModel {
 
     }
 }
+
+let mode: Model<IUserModelDocument>;
 
 export default UserModel.$model<IUserModelDocument>();
 

@@ -16,12 +16,12 @@ export interface IRouter {
     route: IRouter[] | string;
 }
 
-interface IMongoConfig {
+export interface IMongoConfig {
     connection: string;
     options?: ConnectionOptions;
 }
 
-interface IAuth {
+export interface IAuth {
     secret: string;
     session?: {
         limited: boolean;
