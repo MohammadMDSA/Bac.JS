@@ -17,7 +17,6 @@ export default class Server {
 		this._config = config;
 
 		this.server = new Hapi.Server({
-			host: "localhost",
 			port: Number(this._config.port || process.env.port || 3000)
 		});
 
