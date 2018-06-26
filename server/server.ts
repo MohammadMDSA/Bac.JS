@@ -6,6 +6,7 @@ import { IRouter } from "./config";
 import { IHandler, RequestType } from "./controller";
 import { connect } from "mongoose";
 import AuthPlugin from "../Auth";
+import * as RootPath from "app-root-path";
 
 export default class Server {
 
@@ -19,6 +20,8 @@ export default class Server {
 			host: "localhost",
 			port: Number(this._config.port || process.env.port || 3000)
 		});
+
+		RootPath.setPath(RootPath.path + "/out");
 	}
 
 	public async start(): Promise<void> {
@@ -28,8 +31,12 @@ export default class Server {
 
 		await this.connectMongo();
 
-		await this.server.start();
-		console.log(Colors.green(`started on ${this.server.settings.port}`));
+		try {
+			await this.server.start();
+			console.log(Colors.green(`Started on ${this.server.settings.port}`));
+		} catch (error) {
+			console.log(Colors.red(`Failed to connect to port ${this.server.settings.port}`));
+		}
 	}
 
 	private async handleRouters(prefix: string, router: Array<IRouter | Hapi.ServerRoute>): Promise<void> {
@@ -47,13 +54,16 @@ export default class Server {
 	}
 
 	private async assignRoute(prefix: string, path: string): Promise<void> {
+
+		let modulePath = RootPath.resolve(path);
+
 		try {
-			const controller = await import(`.${path}`);
+			const controller = await import(modulePath);
 			let cont: Controller = new controller.default();
 
 			let handlers: IHandler[] = cont.handlers;
 
-			let prser: string[] = path.split("/");
+			let prser: string[] = modulePath.split(/[\\\/]/);
 
 			for (let handle of handlers) {
 
@@ -70,7 +80,7 @@ export default class Server {
 			}
 			console.log();
 		} catch (error) {
-			console.log("Could not assign route with prefix: ".red + prefix.green + " from ".red + ("." + path).green);
+			console.log("Could not assign route with prefix: ".red + prefix.green + " from ".red + ("." + modulePath).green);
 		}
 	}
 
