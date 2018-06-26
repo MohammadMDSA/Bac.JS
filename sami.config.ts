@@ -1,4 +1,4 @@
-import { IConfig } from "./server/server";
+import IConfig from "./server/config";
 
 let appConfig: IConfig;
 
