@@ -5,7 +5,7 @@ import IConfig from "./config";
 import { IRouter } from "./config";
 import { IHandler, RequestType } from "./controller";
 import { connect } from "mongoose";
-import AuthPlugin from "../Auth";
+import AuthPlugin from "../Auth/main";
 import * as RootPath from "app-root-path";
 
 export default class Server {

@@ -1,5 +1,5 @@
 import * as JWT from "jsonwebtoken";
-import { ITokenObject } from "../provider/provider";
+import { ITokenObject } from "./provider";
 import * as Bcrypt from "bcryptjs";
 
 export function jwtSign(message: ITokenObject, key: JWT.Secret, options?: JWT.SignOptions): string {

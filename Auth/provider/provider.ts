@@ -1,11 +1,11 @@
 import ProviderBase, { IProviderOptions } from "./providerBase";
 import { Request, ResponseToolkit } from "hapi";
 import { ValidationResult } from "hapi-auth-jwt2";
-import { jwtDecode, jwtSign, bcryptHash, bcryptCompare } from "../provider/utils";
+import { jwtDecode, jwtSign, bcryptHash, bcryptCompare } from "./utils";
 import User, { IUserModelDocument, UserModel } from "../user/user";
-import { isEmailValid, isPasswordValid, isUsernameValid } from "../provider/validation";
+import { isEmailValid, isPasswordValid, isUsernameValid } from "./validation";
 import * as Boom from "boom";
-import { IAuthOptions } from "..";
+import { IAuthOptions } from "../main";
 import * as _ from "lodash";
 import Session from "../user/session";
 
