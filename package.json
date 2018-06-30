@@ -1,6 +1,6 @@
 {
   "name": "bacjs",
-  "version": "1.0.10",
+  "version": "1.0.11",
   "description": "",
   "main": "./out/app.js",
   "types": "./out/app.d.ts",
