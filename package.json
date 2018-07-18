@@ -2,8 +2,8 @@
   "name": "bacjs",
   "version": "1.0.16",
   "description": "",
-  "main": "./lib/app.js",
-  "types": "./lib/app.d.ts",
+  "main": "./lib/src/server/server.js",
+  "types": "./lib/src/server/server.d.ts",
   "scripts": {
     "api:build": "tsc",
     "api": "build && node ./lib/app.js"
