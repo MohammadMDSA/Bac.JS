@@ -31,9 +31,7 @@
     "lodash": "^4.17.10",
     "mongoose": "^5.1.2",
     "@types/hapi": "^17.0.12",
-    "@types/mongoose": "^5.0.14"
-  },
-  "devDependencies": {
+    "@types/mongoose": "^5.0.14",
     "@types/app-root-path": "^1.2.4",
     "@types/bcrypt": "^2.0.0",
     "@types/bcryptjs": "^2.4.1",
@@ -41,6 +39,8 @@
     "@types/jsonwebtoken": "^7.2.7",
     "@types/lodash": "^4.14.109",
     "@types/mongodb": "^3.0.18",
+  },
+  "devDependencies": {
     "nodemon": "^1.17.4"
   }
 }
