@@ -1,4 +1,5 @@
-import IConfig from "./server/config";
+import IConfig from "./src/server/config";
+import {Request, ResponseToolkit} from "hapi";
 
 let appConfig: IConfig;
 

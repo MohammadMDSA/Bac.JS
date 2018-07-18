@@ -1,5 +1,5 @@
-import Controller from "../server/controller";
-import { RequestType } from "../server/controller";
+import Controller from "../src/server/controller";
+import { RequestType } from "../src/server/controller";
 
 export default class Test extends Controller {
 

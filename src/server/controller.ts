@@ -1,5 +1,4 @@
 import { Request, ResponseToolkit, RouteOptions } from "hapi";
-import { SSL_OP_NETSCAPE_DEMO_CIPHER_CHANGE_BUG } from "constants";
 
 export default abstract class Controller {
     private _handlers: IHandler[];

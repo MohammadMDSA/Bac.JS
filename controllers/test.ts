@@ -1,5 +1,5 @@
-import Controller, { AnyRequestType } from "../server/controller";
-import { RequestType } from "../server/controller";
+import Controller, { AnyRequestType } from "../src/server/controller";
+import { RequestType } from "../src/server/controller";
 import TestModel from "../models";
 
 export default class Test extends Controller {

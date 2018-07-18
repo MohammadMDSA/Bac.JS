@@ -20,7 +20,7 @@ export default class Server {
 			port: Number(this._config.port || process.env.port || 3000)
 		});
 
-		RootPath.setPath(RootPath.path + "/out");
+		RootPath.setPath(RootPath.path + "/lib");
 	}
 
 	public async start(): Promise<void> {

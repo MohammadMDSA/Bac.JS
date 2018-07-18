@@ -6,6 +6,6 @@
         "sourceMap": true,
         "outDir": "lib/",
         "declaration": true,
-        "allowJs": true
+        // "allowJs": true
     }
 }
