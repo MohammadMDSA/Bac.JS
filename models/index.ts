@@ -1,3 +1,1 @@
-import TestModel from "./testModel";
-
-export default TestModel;
+export default {};
