@@ -5,8 +5,8 @@
   "main": "./lib/src/server/server.js",
   "types": "./lib/src/server/server.d.ts",
   "scripts": {
-    "api:build": "tsc",
-    "api": "build && node ./lib/app.js"
+    "build": "tsc",
+    "api": "tsc && node ./lib/app.js"
   },
   "repository": {
     "type": "git",
