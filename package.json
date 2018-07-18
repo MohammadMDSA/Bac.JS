@@ -1,6 +1,6 @@
 {
   "name": "bacjs",
-  "version": "1.0.17",
+  "version": "1.0.18",
   "description": "",
   "main": "./lib/src/server/server.js",
   "types": "./lib/src/server/server.d.ts",
