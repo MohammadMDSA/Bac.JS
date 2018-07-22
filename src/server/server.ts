@@ -42,10 +42,10 @@ export default class Server {
 		for (let item of router) {
 			if (!(item as IRouter).prefix) {
 				this.assignServerRoute(item as Hapi.ServerRoute);
-				return;
+				continue;
 			}
 			if (Array.isArray((item as IRouter).route)) {
-				this.handleRouters(prefix + (item as IRouter).prefix, (item as IRouter).route as IRouter[]);
+				await this.handleRouters(prefix + (item as IRouter).prefix, (item as IRouter).route as IRouter[]);
 			} else {
 				await this.assignRoute(prefix + (item as IRouter).prefix, (item as IRouter).route as string);
 			}
@@ -103,7 +103,7 @@ export default class Server {
 		console.log();
 	}
 
-	public async assignServerRoute(route: Hapi.ServerRoute) {
+	public assignServerRoute(route: Hapi.ServerRoute) {
 		try {
 			this.server.route(route);
 		} catch (error) {
@@ -155,6 +155,14 @@ export default class Server {
 
 	get coreServer(): Hapi.Server {
 		return this.server;
+	}
+
+	get table(): Array<{settings: Hapi.ServerRoute; method: Hapi.Util.HTTP_METHODS_PARTIAL_LOWERCASE, path: string}> {
+		return this.server.table();
+	}
+
+	public getTable(host?: string) {
+		return this.server.table(host);
 	}
 
 }
