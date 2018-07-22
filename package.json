@@ -2,11 +2,11 @@
   "name": "bacjs",
   "version": "1.1.0",
   "description": "",
-  "main": "./lib/src/server/server.js",
-  "types": "./lib/src/server/server.d.ts",
+  "main": "./lib/src/index.js",
+  "types": "./lib/src/index.d.ts",
   "scripts": {
     "build": "tsc",
-    "api": "tsc && node ./lib/app.js"
+    "api": "tsc; node ./lib/app.js"
   },
   "repository": {
     "type": "git",
