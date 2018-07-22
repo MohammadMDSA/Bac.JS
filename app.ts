@@ -4,4 +4,9 @@ import config from "./bac.config";
 
 const server: Server = new Server(config);
 
-server.start();
+async function a() {
+    await server.start();
+    console.log(server.table);
+}
+
+a()

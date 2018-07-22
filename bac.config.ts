@@ -5,15 +5,15 @@ let appConfig: IConfig;
 
 export default appConfig = {
     routers: [
-        {prefix: "/api", route: "./controllers/test"},
-        {prefix: "/1", route: [
-            {prefix: "/2", route: "./controllers/test.1"}
-        ]},
         {
             method: "GET",
             handler: (r, h) => "Hello world",
             path: "/api"
-        }
+        },
+        {prefix: "/api", route: "./controllers/test"},
+        {prefix: "/1", route: [
+            {prefix: "/2", route: "./controllers/test.1"}
+        ]},
     ],
 
     port: 5500,

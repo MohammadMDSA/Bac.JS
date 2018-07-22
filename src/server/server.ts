@@ -157,12 +157,4 @@ export default class Server {
 		return this.server;
 	}
 
-	get table(): Array<{settings: Hapi.ServerRoute; method: Hapi.Util.HTTP_METHODS_PARTIAL_LOWERCASE, path: string}> {
-		return this.server.table();
-	}
-
-	public getTable(host?: string) {
-		return this.server.table(host);
-	}
-
 }
