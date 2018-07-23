@@ -6,7 +6,7 @@ const server: Server = new Server(config);
 
 async function a() {
     await server.start();
-    console.log(server.table);
+   
 }
 
 a()

@@ -29,5 +29,9 @@ export default appConfig = {
             limitation: 4,
             expiredAfter: Date.UTC(0, 1, 0, 0, 0, 0) - Date.UTC(0, 0, 0, 0, 0, 0)
         }
+    },
+    
+    typeScript: {
+        outDir: "///lib/"
     }
 };
