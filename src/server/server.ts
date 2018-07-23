@@ -1,7 +1,7 @@
 import Hapi = require("hapi");
 import Colors = require("colors");
 import Controller from "./controller";
-import IConfig from "./config";
+import IConfig, { ITypeScript } from "./config";
 import { IRouter } from "./config";
 import { IHandler, RequestType } from "./controller";
 import { connect } from "mongoose";
@@ -20,7 +20,15 @@ export default class Server {
 			port: Number(this._config.port || process.env.port || 3000)
 		});
 
-		RootPath.setPath(RootPath.path + "/lib");
+		this.outDirHandler(config.typeScript);
+
+	}
+
+	private outDirHandler(tsConfig: ITypeScript) {
+		if (tsConfig && tsConfig.outDir) {
+			RootPath.setPath(RootPath.resolve(tsConfig.outDir));
+		}
+		console.log(RootPath);
 	}
 
 	public async start(): Promise<void> {
