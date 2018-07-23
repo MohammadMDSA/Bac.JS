@@ -9,6 +9,8 @@ export default interface IConfig {
     mongo?: IMongoConfig;
 
     auth?: IAuth;
+
+    typeScript?: ITypeScript;
 }
 
 export interface IRouter {
@@ -28,4 +30,8 @@ export interface IAuth {
         limitation?: number;
         expiredAfter?: number
     };
+}
+
+export interface ITypeScript {
+    outDir: string;
 }
