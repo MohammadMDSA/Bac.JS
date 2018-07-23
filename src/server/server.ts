@@ -28,7 +28,6 @@ export default class Server {
 		if (tsConfig && tsConfig.outDir) {
 			RootPath.setPath(RootPath.resolve(tsConfig.outDir));
 		}
-		console.log(RootPath);
 	}
 
 	public async start(): Promise<void> {
