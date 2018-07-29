@@ -47,7 +47,7 @@ export default class Server {
 
 	private async handleRouters(prefix: string, router: Array<IRouter | Hapi.ServerRoute>): Promise<void> {
 		for (let item of router) {
-			if (!(item as IRouter).prefix) {
+			if (!(item as IRouter).prefix && (item as IRouter).prefix !== "") {
 				this.assignServerRoute(item as Hapi.ServerRoute);
 				continue;
 			}
